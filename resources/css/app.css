@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../node_modules/flowbite";
+
+
+/* Custom utility class to represent the active state */
+.active-link {
+    color: theme('colors.fg-brand');
+    /* Use your brand color */
+    border-bottom: 2px solid theme('colors.fg-brand');
+    /* You might need to override other default link styles here */
+    background-color: transparent !important;
+}
+
+/* Or, more simply, define the active state directly using Tailwind utility classes */
+.js-active {
+    @apply text-fg-brand font-semibold border-b-2 border-fg-brand;
+    /* Example active styles */
+}
+
+.main-color {
+    color: #0053A1
+}
