@@ -19,64 +19,14 @@
     <section>
         <div class="bg-white p-6  shadow-xs border border-gray-200">
             <h2 class="text-xl font-semibold text-gray-800">All Dispatchers</h2>
-            <table class="table-auto w-full mt-4" id="dispatchers-table">
-                <thead class="bg-neutral-secondary-soft border-b border-default">
-                    <tr>
-                        <th class="px-6 py-3 text-left">First Name</th>
-                        <th class="px-6 py-3 text-left">Last Name</th>
-                        <th class="px-6 py-3 text-left">Contact Number</th>
-                        <th class="px-6 py-3 text-left">Status</th>
-                        <th class="px-6 py-3 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            {{ $dataTable->table() }}
         </div>
     </section>
 
 </div>
 
-<!-- Include DataTables JS -->
 @push('scripts')
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#dispatchers-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('admin.dispatchers.data') }}",
-                type: 'GET',
-                dataSrc: 'data' 
-            },
-            columns: [{
-                    data: 'first_name',
-                    name: 'first_name'
-                },
-                {
-                    data: 'last_name',
-                    name: 'last_name'
-                },
-                {
-                    data: 'contact_number',
-                    name: 'contact_number'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
-    });
-</script>
+{{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
 
 @endsection

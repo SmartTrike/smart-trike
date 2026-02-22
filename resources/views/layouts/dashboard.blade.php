@@ -21,8 +21,7 @@
         @yield('content')
     </main>
 
-    @yield('scripts')
-
+    @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 </body>
 

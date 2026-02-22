@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\DispatcherDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\DispatcherInformation;
 use App\Models\User;
@@ -13,9 +14,10 @@ class DispatcherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(DispatcherDataTable $dataTable)
     {
-        return view('admin.dispatchers.index');
+        return $dataTable->render('admin.dispatchers.index');
+        // return view('admin.dispatchers.index');
     }
 
     /**
@@ -97,17 +99,17 @@ class DispatcherController extends Controller
     }
 
 
-    public function getDispatchers(Request $request)
-    {
-        if ($request->ajax()) {
-            $dispatchers = DispatcherInformation::select('id', 'first_name', 'last_name', 'contact_number', 'status');
-            dd($dispatchers->get()); // Debugging to check the data
+    // public function getDispatchers(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $dispatchers = DispatcherInformation::select('id', 'first_name', 'last_name', 'contact_number', 'status');
+    //         dd($dispatchers->get()); // Debugging to check the data
 
-            return DataTables::of($dispatchers)
-                ->addColumn('action', function ($dispatcher) {
-                    return '<a href="' .'" class="btn btn-primary btn-sm">Edit</a>';
-                })
-                ->make(true);
-        }
-    }
+    //         return DataTables::of($dispatchers)
+    //             ->addColumn('action', function ($dispatcher) {
+    //                 return '<a href="' .'" class="btn btn-primary btn-sm">Edit</a>';
+    //             })
+    //             ->make(true);
+    //     }
+    // }
 }
