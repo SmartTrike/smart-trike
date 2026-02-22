@@ -19,14 +19,14 @@
     <section>
         <div class="bg-white p-6  shadow-xs border border-gray-200">
             <h2 class="text-xl font-semibold text-gray-800">All Dispatchers</h2>
-            {{ $dataTable->table() }}
+            <!-- {{ $dataTable->table() }} -->
         </div>
     </section>
 
 </div>
 
-@push('scripts')
+<!-- @push('scripts')
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-@endpush
+@endpush -->
 
 @endsection
