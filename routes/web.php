@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DispatcherController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dispatcher\DispatcherController as DispatchController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\QueueController;
 use App\Models\DriverInformation;
@@ -17,12 +19,6 @@ use Illuminate\Support\Facades\Route;
 // Welcome
 Route::view('/', 'welcome');
 
-// Login
-// Route::get('/signup', [AuthController::class, 'showRegistrationForm'])->name('signup');
-
-// // Dispatcher signup
-// Route::get('/signup/dispatcher', [AuthController::class, 'showDispatcherForm'])->name('signup.dispatcher');
-//  Route::post('/signup/dispatcher', [AuthController::class, 'registerDispatcher']);
 
 // Driver signup
 Route::get('/signup', [AuthController::class, 'showDriverForm'])->name('signup');
@@ -39,7 +35,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protected routes
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+
+
+Route::get('/admin/dispatchers', [DispatcherController::class, 'index'])->name('admin.dispatchers.index');
+Route::get('/admin/dispatcher/data', [DispatcherController::class, 'getDispatchers'])->name('admin.dispatchers.data');
+Route::get('/admin/dispatchers/create', [DispatcherController::class, 'create'])->name('admin.dispatchers.create');
+Route::post('/admin/dispatchers/store', [DispatcherController::class, 'store'])->name('admin.dispatchers.store');
+
+
+
+Route::get('/admin/driver', [AdminController::class, 'driverView']);
+Route::get('/admin/reports', [AdminController::class, 'reportView']);
 });
 
 
@@ -49,9 +57,13 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
 });
 
 
+Route::middleware(['auth', 'role:dispatcher'])->group(function () {
+    Route::get('/dispatcher/dashboard', [DispatchController::class, 'index'])->name('dispatcher.dashboard');
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Protected Routes (after login)
 |--------------------------------------------------------------------------
 */
-

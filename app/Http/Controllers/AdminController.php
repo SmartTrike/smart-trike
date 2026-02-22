@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DispatcherInformation;
 use App\Models\DriverInformation;
 use App\Models\DriverQueue;
 use App\Models\Ride;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use SebastianBergmann\CodeCoverage\Driver\Driver;
+use Yajra\DataTables\DataTables;
 
 class AdminController extends Controller
 {
@@ -72,4 +74,7 @@ class AdminController extends Controller
             ]);
         }
     }
+
+
+
 }

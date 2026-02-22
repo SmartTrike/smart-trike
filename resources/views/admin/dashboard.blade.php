@@ -35,13 +35,13 @@
 
             <!-- Cancelled Trips -->
             <div class="bg-white p-6 rounded-lg shadow-xs border border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-800">Cancelled Trips</h2>
-                <p class="text-3xl text-red-500 mt-2" id="cancelledTrips">{{$cancelledCount}}</p>
-                <p class="text-gray-500 text-sm mt-2">Total trips cancelled today.</p>
+                <h2 class="text-xl font-semibold text-gray-800">Lost and Found</h2>
+                <p class="text-3xl text-red-500 mt-2" id="lostAndFoundCount">0</p>
+                <p class="text-gray-500 text-sm mt-2">Total items reported.</p>
             </div>
         </div>
 
-                <section class="mx-auto">
+        <section class="mx-auto">
             @if($currentQueueDriver && $driverDetails)
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="bg-blue-600 px-6 py-3 flex justify-between items-center">

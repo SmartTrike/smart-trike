@@ -13,7 +13,7 @@ class DispatcherInformation extends Model
 
     protected $fillable = [
         'user_id',
-       'first_name',
+        'first_name',
         'middle_name',
         'last_name',
         'suffix',
@@ -30,6 +30,4 @@ class DispatcherInformation extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }

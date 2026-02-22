@@ -16,9 +16,11 @@
         "codeat3/blade-clarity-icons": "^1.10",
         "codeat3/blade-google-material-design-icons": "^1.20",
         "codeat3/blade-pepicons": "^1.6",
+        "davidhsianturi/blade-bootstrap-icons": "^2.1",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "secondnetwork/blade-tabler-icons": "^3.35"
+        "secondnetwork/blade-tabler-icons": "^3.36",
+        "yajra/laravel-datatables-oracle": "^12.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
