@@ -116,8 +116,8 @@
                             <tr>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Driver ID</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Status</th>
-                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Dispatched At</th>
-                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Dispatched By</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Dispatch Time</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Dispatch By</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -148,7 +148,6 @@
                                     <div class="text-sm text-gray-600 font-medium ">{{ $ongoing->status=== 'ongoing'? 'On Going': 'N/A' }}</div>
                                 </td>
 
-       
 
 
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -164,9 +163,7 @@
                                             View
                                         </a>
                                         <span class="text-gray-200">|</span>
-                                        <a href="" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
-                                            Update
-                                        </a>
+
                                     </div>
                                 </td>
                             </tr>

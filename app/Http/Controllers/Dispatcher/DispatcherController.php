@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Dispatcher;
 use App\Http\Controllers\Controller;
 use App\Models\DriverInformation;
 use App\Models\DriverQueue;
+use App\Models\LostItem;
 use App\Models\Ride;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DispatcherController extends Controller
 {
@@ -15,26 +17,68 @@ class DispatcherController extends Controller
      */
     public function index()
     {
-        // Fetch the first driver in the queue (Number 1)
-        $firstQueueDriver = DriverQueue::where('status', 'waiting')
-            ->orderBy('created_at', 'asc') // First in queue
-            ->first();
+        // // Fetch the first driver in the queue (Number 1)
+        // $firstQueueDriver = DriverQueue::where('status', 'waiting')
+        //     ->orderBy('created_at', 'asc') // First in queue
+        //     ->first();
 
-        // Fetch other drivers in the queue
-        $queuedDrivers = DriverQueue::where('status', 'waiting')
-            ->orderBy('created_at', 'asc') // Sort by queue position
-            ->get();
+        // // Fetch other drivers in the queue
+        // $queuedDrivers = DriverQueue::where('status', 'waiting')
+        //     ->orderBy('created_at', 'asc') // Sort by queue position
+        //     ->get();
 
-        // Fetch driver details for the first queue driver
-        $driverDetails = null;
-        if ($firstQueueDriver) {
-            $driverDetails = DriverInformation::where('user_id', $firstQueueDriver->driver_id)->first();
+        // // Fetch driver details for the first queue driver
+        // $driverDetails = null;
+        // if ($firstQueueDriver) {
+        //     $driverDetails = DriverInformation::where('user_id', $firstQueueDriver->driver_id)->first();
+        // }
+
+        $today = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
+
+        try {
+            $firstQueueDriver = DriverQueue::where('status', 'waiting')
+                ->orderBy('created_at', 'asc') // First in queue
+                ->first();
+
+            $activeQueueCount  = DriverQueue::where('status', 'waiting')
+                ->whereBetween('created_at', [$today, $endOfDay])
+                ->count();
+            $ongoingRides = Ride::paginate(10);
+
+
+            $onRideCount = Ride::where('status', 'ongoing')
+                ->whereBetween('dispatch_at', [$today, $endOfDay])
+                ->count();
+
+
+            $completedCount = Ride::where('status', 'completed')
+                ->whereBetween('dispatch_at', [$today, $endOfDay])
+                ->count();
+
+            $lostAndFoundCount = LostItem::where('status', 'reported')->count();
+
+            $currentQueueDriver = DriverQueue::where('status', 'waiting')
+                ->orderBy('created_at', 'asc') // Assuming the first driver is the one with the earliest created_at
+                ->first();
+
+            $driverDetails = null;
+            if ($firstQueueDriver) {
+                $driverDetails = DriverInformation::where('user_id', $firstQueueDriver->driver_id)->first();
+            }
+
+            return view('dispatcher.dashboard', compact(
+                'activeQueueCount',
+                'onRideCount',
+                'completedCount',
+                'lostAndFoundCount',
+                'currentQueueDriver',
+                'driverDetails',
+                'ongoingRides'
+            ));
+        } catch (\Exception $e) {
+            Log::error('Error fetching dashboard data: ' . $e->getMessage());
         }
-
-        // Fake Data for ongoing rides (replace with real data in a real app)
-        $ongoingRides = Ride::paginate(10);  // Fake data for the ongoing rides table
-
-        return view('dispatcher.dashboard', compact('firstQueueDriver', 'driverDetails', 'queuedDrivers', 'ongoingRides'));
     }
 
     /**
