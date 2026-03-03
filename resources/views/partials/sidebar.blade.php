@@ -9,67 +9,89 @@
         <div class="flex flex-col items-center justify-center mt-5">
             <img src="{{ asset('logo.png') }}" width="95" height="95" alt="Logo" class="shadow-sm z-50 rounded-full">
             <p class="text-xl text-[#0053A1] font-bold text-center">SMART TRIKE</p>
+
+        <div class="py-2 text-center w-full  items-center justify-center flex uppercase text-sm text-gray-600 italic">
+            ({{ Auth::user()->role }})
+        </div>
+
         </div>
 
         <!-- Sidebar Menu -->
         <ul class="space-y-3 font-medium mt-6">
 
+
             <!-- Admin Role -->
             @if(auth()->user()->role === 'admin')
-                <li>
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group {{ request()->routeIs('admin.dashboard') ? 'bg-neutral-tertiary text-fg-brand' : '' }}">
-                        <x-heroicon-o-home class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('admin.dashboard') ? 'text-fg-brand' : 'text-gray-500' }}" />
-                        <span class="ml-3 font-semibold">Home</span>
-                    </a>
-                </li>
+            <li>
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group {{ request()->routeIs('admin.dashboard') ? 'bg-neutral-tertiary text-fg-brand' : '' }}">
+                    <x-heroicon-o-home class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('admin.dashboard') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">Home</span>
+                </a>
+            </li>
 
-                <li>
-                    <a href="{{ route('admin.dispatchers.index') }}" class="{{ request()->routeIs('admin.dispatchers.index') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
-                        <x-heroicon-o-users class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('admin.dispatchers.index') ? 'text-fg-brand' : 'text-gray-500' }}" />
-                        <span class="ml-3 font-semibold">Manage Dispatchers</span>
-                    </a>
-                </li>
+            <li>
+                <a href="{{ route('admin.dispatchers.index') }}" class="{{ request()->routeIs('admin.dispatchers.index') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-heroicon-o-users class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('admin.dispatchers.index') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">Manage Dispatchers</span>
+                </a>
+            </li>
 
-                <li>
-                    <a href="{{ route('admin.driver.list') }}" class="{{ request()->routeIs('admin.driver.list') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
-                        <x-tabler-helmet class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('admin.driver.list') ? 'text-fg-brand' : 'text-gray-500' }}" />
-                        <span class="ml-3 font-semibold">Manage Drivers</span>
-                    </a>
-                </li>
+            <li>
+                <a href="{{ route('admin.driver.list') }}" class="{{ request()->routeIs('admin.driver.list') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-tabler-helmet class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('admin.driver.list') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">Manage Drivers</span>
+                </a>
+            </li>
 
-                <li>
-                    <a href="#" class="flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
-                        <x-tabler-report class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150" />
-                        <span class="ml-3 font-semibold">Data Reports</span>
-                    </a>
-                </li>
+            <li>
+                <a href="#" class="flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-tabler-report class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150" />
+                    <span class="ml-3 font-semibold">Data Reports</span>
+                </a>
+            </li>
             @endif
 
             <!-- Dispatcher Role -->
             @if(auth()->user()->role === 'dispatcher')
-                <li>
-                    <a href="#" class="flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
-                        <x-heroicon-o-clipboard-document class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150" />
-                        <span class="ml-3 font-semibold">Tricycle Queue</span>
-                    </a>
-                </li>
+            <li>
+                <a href="{{ route('dispatcher.dashboard') }}" class="{{ request()->routeIs('dispatcher.dashboard') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-heroicon-o-clipboard-document class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150" />
+                    <span class="ml-3 font-semibold">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="" class="} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-heroicon-o-user class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('driver.profile') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">My Profile</span>
+                </a>
+            </li>
+            </li>
             @endif
 
             <!-- Driver Role -->
             @if(auth()->user()->role === 'driver')
-                <li>
-                    <a href="/driver/profile" class="{{ request()->routeIs('driver.profile') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
-                        <x-heroicon-o-user class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('driver.profile') ? 'text-fg-brand' : 'text-gray-500' }}" />
-                        <span class="ml-3 font-semibold">My Profile</span>
-                    </a>
-                </li>
+            <li>
+                <a href="{{ route('driver.home') }}" class="{{ request()->routeIs('driver.home') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-heroicon-o-user class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('driver.profile') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">Home</span>
 
-                <li>
-                    <a href="{{ route('driver.tripHistory') }}" class="{{ request()->routeIs('driver.tripHistory') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
-                        <x-heroicon-o-clipboard-document-check class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('driver.tripHistory') ? 'text-fg-brand' : 'text-gray-500' }}" />
-                        <span class="ml-3 font-semibold">Trip History</span>
-                    </a>
-                </li>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="/driver/profile" class="{{ request()->routeIs('driver.profile') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-heroicon-o-user class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('driver.profile') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">My Profile</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('driver.tripHistory') }}" class="{{ request()->routeIs('driver.tripHistory') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <x-heroicon-o-clipboard-document-check class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 {{ request()->routeIs('driver.tripHistory') ? 'text-fg-brand' : 'text-gray-500' }}" />
+                    <span class="ml-3 font-semibold">Trip History</span>
+                </a>
+            </li>
             @endif
 
             <!-- Lost and Found: Visible to all -->

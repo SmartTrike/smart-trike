@@ -71,7 +71,7 @@
                             <td class="px-6 py-4">
                                 @if($trip->returned_at)
                                     <div class="text-sm font-medium text-gray-700">
-                                        {{ $trip->dispatch_at->diffInMinutes($trip->returned_at) }} mins
+                                        {{ round($trip->dispatch_at->diffInMinutes($trip->returned_at, false)) }} mins
                                     </div>
                                     <div class="text-2xs text-gray-400 uppercase">
                                         Back at {{ $trip->returned_at->format('h:i A') }}

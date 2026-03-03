@@ -3,9 +3,8 @@
 @section('content')
 <div class="min-h-screen bg-white md:bg-gray-50/30 p-4 lg:p-10 overflow-y-auto">
     <div class="w-full space-y-6">
-
         <header class="mb-10">
-            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Dispatcher Terminal</h1>
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Welcome, {{ auth()->user()->username }}</h1>
             <p class="text-lg text-gray-500 mt-2">{{ now()->format('l, F j, Y \a\t g:i A') }}</p>
         </header>
 

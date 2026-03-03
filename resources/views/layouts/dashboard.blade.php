@@ -12,6 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
     <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 
 <body x-data="{ sidebarOpen: false }" class="bg-white min-h-screen h-screen sm:flex-col">

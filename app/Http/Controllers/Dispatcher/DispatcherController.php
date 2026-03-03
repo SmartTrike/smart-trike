@@ -17,21 +17,7 @@ class DispatcherController extends Controller
      */
     public function index()
     {
-        // // Fetch the first driver in the queue (Number 1)
-        // $firstQueueDriver = DriverQueue::where('status', 'waiting')
-        //     ->orderBy('created_at', 'asc') // First in queue
-        //     ->first();
-
-        // // Fetch other drivers in the queue
-        // $queuedDrivers = DriverQueue::where('status', 'waiting')
-        //     ->orderBy('created_at', 'asc') // Sort by queue position
-        //     ->get();
-
-        // // Fetch driver details for the first queue driver
-        // $driverDetails = null;
-        // if ($firstQueueDriver) {
-        //     $driverDetails = DriverInformation::where('user_id', $firstQueueDriver->driver_id)->first();
-        // }
+  
 
         $today = now()->startOfDay();
         $endOfDay = now()->endOfDay();
@@ -44,7 +30,7 @@ class DispatcherController extends Controller
             $activeQueueCount  = DriverQueue::where('status', 'waiting')
                 ->whereBetween('created_at', [$today, $endOfDay])
                 ->count();
-            $ongoingRides = Ride::paginate(10);
+            $ongoingRides = Ride::where('status', 'ongoing')->paginate(10);
 
 
             $onRideCount = Ride::where('status', 'ongoing')

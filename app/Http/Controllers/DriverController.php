@@ -17,26 +17,52 @@ class DriverController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $driverInfo = $user->driverInfo;
 
-        // 1. Get the current user's waiting record for today
-        $myQueueRecord = DriverQueue::where('driver_id', $user->id)
-            ->where('status', 'waiting')
-            ->whereDate('created_at', now()->today())
+        // Check if driver is currently on a ride
+        $currentRide = Ride::where('driver_id', $user->id)
+            ->where('status', 'ongoing')
             ->first();
 
         $queuePosition = null;
+        $onRide = false;
 
-        if ($myQueueRecord) {
-            // 2. CALCULATE POSITION: 
-            // Count how many drivers checked in BEFORE this driver today and are still 'waiting'
-            $queuePosition = DriverQueue::where('status', 'waiting')
+        if ($currentRide) {
+            $onRide = true;
+        } else {
+            // Only look for queue position if NOT on a ride
+            $myQueueRecord = DriverQueue::where('driver_id', $user->id)
+                ->where('status', 'waiting')
                 ->whereDate('created_at', now()->today())
-                ->where('created_at', '<', $myQueueRecord->created_at)
-                ->count() + 1;
+                ->first();
+
+            if ($myQueueRecord) {
+                $queuePosition = DriverQueue::where('status', 'waiting')
+                    ->whereDate('created_at', now()->today())
+                    ->where('created_at', '<', $myQueueRecord->created_at)
+                    ->count() + 1;
+            }
         }
 
-        return view('driver.home', compact('driverInfo', 'queuePosition'));
+        $driverInfo = $user->driverInfo;
+
+        return view('driver.home', compact('driverInfo', 'queuePosition', 'onRide', 'currentRide'));
+    }
+
+    public function completeRide(Request $request, $id)
+    {
+        $ride = Ride::findOrFail($id);
+
+        // 1. Update the Ride status
+        $ride->update([
+            'status' => 'completed',
+            'returned_at' => now()
+        ]);
+
+        DriverQueue::where('driver_id', $ride->driver_id)
+            ->where('status', 'on_ride')
+            ->delete();
+
+        return redirect()->back()->with('success', 'Ride completed successfully!');
     }
 
     public function viewProfile()
@@ -166,6 +192,4 @@ class DriverController extends Controller
 
         return view('driver.trip-history', compact('trips'));
     }
-
-
 }

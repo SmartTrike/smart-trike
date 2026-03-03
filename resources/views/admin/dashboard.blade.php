@@ -11,7 +11,7 @@
         </header>
 
         <!-- Dashboard Stats Section -->
-        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Active Drivers -->
             <div class="bg-white p-6 rounded-lg shadow-xs border border-gray-200">
                 <h2 class="text-xl font-semibold text-gray-800">Drivers in Queue</h2>

@@ -119,7 +119,7 @@
 
         <div class=" py-10 space-y-8">
 
-            <div class="bg-white shadow rounded-lg ">
+            <div class="bg-white shadow rounded-lg p-4">
                 <h3 class="text-lg font-bold text-gray-800 mb-6 border-b pb-2">Driver Profile Information</h3>
 
                 <form action="{{ route('driver.profileUpdate') }}" method="POST">
@@ -187,7 +187,7 @@
                 </form>
             </div>
 
-            <div class="bg-white shadow rounded-lg  ">
+            <div class="bg-white shadow rounded-lg  p-4">
                 <h3 class="text-lg font-bold text-gray-800 mb-2">Change Password</h3>
                 <p class="text-sm text-gray-500 mb-6">Ensure your account is using a long, random password to stay secure.</p>
 

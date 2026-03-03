@@ -82,6 +82,8 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
 
     // Lost and Found
 
+    Route::post('/driver/ride/{id}/complete', [DriverController::class, 'completeRide'])->name('driver.completeRide');
+    
     // Route::get('/driver/lostAndFound', [DriverController::class, 'updatePhoto'])->name('driver.lostAndFound');
     // Route::get('/driver/createLostAndFound', [DriverController::class, 'updatePhoto'])->name('driver.createLostAndFound');
     // Route::get('/driver/createLostAndFound', [DriverController::class, 'updatePhoto'])->name('driver.storeLostAndFound');
