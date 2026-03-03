@@ -15,6 +15,7 @@ class DriverQueue extends Model
     protected $fillable = [
         'driver_id',
         'status',
+        'create_at'
     ];
 
     // Relationship with the Driver/User

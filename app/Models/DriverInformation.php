@@ -34,6 +34,7 @@ class DriverInformation extends Model
         'model',
         'year_acquired',
         'status',
+        'profile_photo'
          ];
 
     // Relation to user

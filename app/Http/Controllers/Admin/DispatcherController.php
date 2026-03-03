@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\DispatcherDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\DispatcherInformation;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 
 class DispatcherController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(DispatcherDataTable $dataTable)
+    public function index(Request $request)
     {
-        return $dataTable->render('admin.dispatchers.index');
+
+        $dispatchers = DispatcherInformation::paginate(10);
+        return view('admin.dispatchers.index', compact('dispatchers'));
+
+        // return $dataTable->render('admin.dispatchers.index');
         // return view('admin.dispatchers.index');
     }
 

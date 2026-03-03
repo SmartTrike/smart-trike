@@ -66,27 +66,37 @@ class AuthController extends Controller
     // Register Driver
     public function registerDriver(Request $request)
     {
-        // Validation rules including username, password, and confirm password
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'contact_number' => 'nullable|string|max:20',
-            'birthdate' => 'nullable|date',
+            'birthdate' => [
+                'required',
+                'date',
+                'before_or_equal:' . now()->subYears(18)->toDateString(),
+            ],
             'license_number' => 'nullable|string|max:255',
             'operator_name' => 'nullable|string|max:255',
             'operator_contact' => 'nullable|string|max:20',
             'mtop_number' => 'nullable|string|max:255',
             'plate_number' => 'nullable|string|max:255',
             'username' => 'required|string|unique:users,username|max:255',
-            'password' => 'required|string|min:8|confirmed', // Ensure password is confirmed
-            'password_confirmation' => 'required|string|min:8',
+            'password' => 'required|string|min:4|confirmed',
+            'password_confirmation' => 'required|string|min:4',
+            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ], [
+            'birthdate.before_or_equal' => 'You must be at least 18 years old to register as a driver.',
         ]);
 
-      
+        // If there's a file uploaded, handle the upload
+        // $photoPath = null;
+        // if ($request->hasFile('profile_photo')) {
+        //     $photoPath = $request->file('profile_photo')->store('profile_photos', 'public'); // Save in storage/app/public/profile_photos
+        // }
 
         // Create the user (driver)
         $user = User::create([
-            'username' => $request->username, 
+            'username' => $request->username,
             'role' => 'driver',
             'password' => Hash::make($request->password),
         ]);
@@ -108,10 +118,10 @@ class AuthController extends Controller
             'operator_address' => $request->operator_address,
             'mtop_number' => $request->mtop_number,
             'plate_number' => $request->plate_number,
+            // 'profile_photo' => $photoPath, // Store the path to the uploaded photo
         ]);
 
         return redirect()->route('login')->with('info', 'Driver account created.');
-
     }
 
     // Login / Logout
@@ -127,7 +137,13 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+        // Check if the user exists
         $user = User::where('username', $request->username)->first();
+
+        // If user doesn't exist or password doesn't match, return an error
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['credentials' => 'Invalid credentials'])->withInput();
+        }
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);

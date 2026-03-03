@@ -64,7 +64,7 @@
                         <div class="bg-gray-50 border border-gray-100 rounded-lg p-3 text-center min-w-[120px]">
                             <p class="text-2xs uppercase text-gray-400 font-bold leading-none mb-1">Checked In</p>
                             <p class="text-xl font-mono font-semibold text-gray-700">
-                                {{ $currentQueueDriver->created_at->format('g:i A') }}
+                                {{ $currentQueueDriver->created_at->format('h:i A') }}
                             </p>
                         </div>
                     </div>

@@ -34,9 +34,13 @@
                         <p class="text-slate-800 text-base font-medium leading-normal pb-2">Contact Number</p>
                         <input class="form-input flex w-full border border-gray-200 rounded-md p-2" required name="contact_number" type="tel" value="{{ old('contact_number') }}" placeholder="e.g. 09123456789" />
                     </label>
+
                     <label class="flex flex-col">
                         <p class="text-slate-800 text-base font-medium leading-normal pb-2">Birthdate</p>
                         <input class="form-input flex w-full border border-gray-200 rounded-md p-2" required name="birthdate" type="date" value="{{ old('birthdate') }}" />
+                        @error('birthdate')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </label>
                     <label class="flex flex-col">
                         <p class="text-slate-800 text-base font-medium leading-normal pb-2">License Number</p>
@@ -79,6 +83,11 @@
             <div class="space-y-6">
                 <h2 class="text-slate-900 text-2xl font-bold leading-tight tracking-[-0.015em] border-b border-slate-200 pb-3">Account Information</h2>
                 <div class="grid grid-cols-1 gap-6">
+                    <!-- <label class="flex flex-col">
+                        <p class="text-slate-800 text-base font-medium leading-normal pb-2">Profile Photo</p>
+                        <input class="form-input flex w-full border border-gray-200 rounded-md p-2" name="profile_photo" type="file" accept="image/*" />
+                    </label> -->
+
                     <!-- Username -->
                     <label class="flex flex-col">
                         <p class="text-slate-800 text-base font-medium leading-normal pb-2">Username</p>
@@ -96,6 +105,8 @@
                         <p class="text-slate-800 text-base font-medium leading-normal pb-2">Confirm Password</p>
                         <input class="form-input flex w-full border border-gray-200 rounded-md p-2" required name="password_confirmation" type="password" placeholder="Confirm your password" />
                     </label>
+
+
                 </div>
             </div>
 

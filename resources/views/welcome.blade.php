@@ -73,16 +73,7 @@
                 </p>
                 <p class="text-sm  text-gray-700">Compliance and violation monitoring</p>
             </div>
-            <div class="h-auto md:h-36 items-start justify-center bg-gray-50 rounded-2xl border border-gray-200 p-4 flex flex-col">
-                <div class="h-8">
-                    <x-gmdi-color-lens-o class="h-6 text-[#0053A1]" />
-
-                </div>
-                <p class="font-bold md:h-8  text-gray-800 text-base">
-                    Color-coded schedules
-                </p>
-                <p class="text-sm  text-gray-700"> Color-coded schedule for easy planning</p>
-            </div>
+           
             <div class="h-auto md:h-36 items-start justify-center bg-gray-50 rounded-2xl border border-gray-200 p-4 flex flex-col">
                 <div class="h-8">
                     <x-ri-layout-2-line class="h-6 text-[#0053A1]" />
@@ -122,7 +113,7 @@
         </div>
         <hr class="my-6 border-default sm:mx-auto lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-body sm:text-center">© 2025 Smart Trike. All Rights Reserved.
+            <span class="text-sm text-body sm:text-center">© 2026 Smart Trike. All Rights Reserved.
             </span>
 
         </div>

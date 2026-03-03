@@ -17,6 +17,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
 
+    <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
   
 </head>
 

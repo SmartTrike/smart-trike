@@ -11,6 +11,7 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
+    <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
 </head>
 
 <body x-data="{ sidebarOpen: false }" class="bg-white min-h-screen h-screen sm:flex-col">
