@@ -51,39 +51,39 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center text-white text-xs font-black shadow-inner">
-                                        {{ strtoupper(substr($dispatcher->user->username, 0, 2)) }}
+                                        {{ strtoupper(substr($dispatcher->username, 0, 2)) }}
                                     </div>
                                     <div>
-                                        <div class="text-sm font-bold text-gray-900">{{ $dispatcher->user->username }}</div>
-                                        <div class="text-2xs text-gray-400 uppercase tracking-tighter">ID: #{{ $dispatcher->user->id }}</div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $dispatcher->username }}</div>
+                                        <div class="text-2xs text-gray-400 uppercase tracking-tighter">ID: #{{ $dispatcher->id }}</div>
                                     </div>
                                 </div>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-600 font-medium">{{ $dispatcher->user->email }}</div>
+                                <div class="text-sm text-gray-600 font-medium">{{ $dispatcher->email }}</div>
                             </td>
 
 
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-700 font-medium">{{ $dispatcher->user->created_at->format('M d, Y') }}</div>
-                                <div class="text-2xs text-gray-400 uppercase">{{ $dispatcher->user->created_at->format('h:i A') }}</div>
+                                <div class="text-sm text-gray-700 font-medium">{{ $dispatcher->created_at->format('M d, Y') }}</div>
+                                <div class="text-2xs text-gray-400 uppercase">{{ $dispatcher->created_at->format('h:i A') }}</div>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <div class="flex items-center justify-end gap-3">
-                                    <a href="" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
+                                    <a href="{{ route('admin.dispatchers.edit', $dispatcher->id) }}" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
                                         Edit
                                     </a>
                                     <span class="text-gray-200">|</span>
-                                    <form action="" method="POST" onsubmit="return confirm('Delete this dispatcher account?');">
+                                    <!-- <form action="" method="POST" onsubmit="return confirm('Delete this dispatcher account?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors">
                                             Delete
                                         </button>
-                                    </form>
+                                    </form> -->
                                 </div>
                             </td>
                         </tr>

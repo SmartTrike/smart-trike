@@ -36,16 +36,16 @@
             <!-- Cancelled Trips -->
             <div class="bg-white p-6 rounded-lg shadow-xs border border-gray-200">
                 <h2 class="text-xl font-semibold text-gray-800">Lost and Found</h2>
-                <p class="text-3xl text-red-500 mt-2" id="lostAndFoundCount">0</p>
+                <p class="text-3xl text-red-500 mt-2" id="lostAndFoundCount">{{$lostAndFoundCount}}</p>
                 <p class="text-gray-500 text-sm mt-2">Total items reported.</p>
             </div>
         </div>
 
         <section class="mx-auto">
             @if($currentQueueDriver && $driverDetails)
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-xl flex flex-col gap-4 shadow-sm border border-gray-200 overflow-hidden">
                 <div class="bg-blue-600 px-6 py-3 flex justify-between items-center">
-                    <span class="text-white font-bold tracking-wider uppercase text-sm">Next in Line</span>
+                    <span class="text-white font-bold tracking-wider uppercase text-sm">First in Line</span>
                     <span class="bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-black">QUEUE #1</span>
                 </div>
 
@@ -86,67 +86,110 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            @else
-            <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-12 text-center">
-                <p class="text-gray-500 font-medium text-lg">The queue is currently empty.</p>
-            </div>
-            @endif
+
+                <button type="button"
+                    onclick="openDispatchModal({{ $currentQueueDriver->driver_id }}, '{{ $driverDetails->first_name }} {{ $driverDetails->last_name }}')"
+                    class="group relative w-full md:w-auto overflow-hidden bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-green-500/20 active:scale-95">
+
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        Dispatch Now
+                        <x-heroicon-s-paper-airplane class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+
+                </button>
+                @else
+                <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-12 text-center">
+                    <p class="text-gray-500 font-medium text-lg">The queue is currently empty.</p>
+                </div>
+                @endif
         </section>
 
         <!-- Ongoing Drivers Table Section -->
         <section class="bg-blue-50 rounded-md overflow-hidden mt-6">
             <div class="w-full bg-[#0054A1] rounded-md h-12 px-4 py-1.5 flex items-center ">
-                <p class="font-bold text-white">Trip History</p>
+                <p class="font-bold text-white">On Ride</p>
             </div>
-            <table class="w-full text-sm text-left rtl:text-right text-body mt-4">
-                <thead class="bg-neutral-secondary-soft border-b border-default">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 font-bold text-gray-800">
-                            Driver Name
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-bold text-gray-800">
-                            Tricycle ID
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-bold text-gray-800">
-                            Dispatch Time
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-bold text-gray-800">
-                            Status
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if($ongoingRides->isEmpty())
-                    <tr>
-                        <td colspan="5" class="text-center py-4 text-gray-500">
-                            No available data
-                        </td>
-                    </tr>
-                    @else
-                    @foreach($ongoingRides as $ride)
-                    <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
-                        <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                            {{ $ride->driver->username }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $ride->tricycle_id }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $ride->dispatch_at->format('H:i') }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="text-orange-500">{{ $ride->status }}</span>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
+            <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50/50 border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Driver ID</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Status</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Dispatched At</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Dispatched By</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($ongoingRides as $ongoing)
+                            <tr class="hover:bg-gray-50/30 transition-colors group">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg  flex items-center justify-center text-white text-xs font-black shadow-inner">
+                                            <!-- {{ strtoupper(substr($ongoing->username, 0, 2)) }} -->
 
-            <!-- Pagination Links -->
-            <div class="mt-4">
-                {{ $ongoingRides->links() }}
+
+                                            <div id="placeholder-icon" class="w-full rounded-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                            </div>
+
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-bold text-gray-900 ">{{ $ongoing->driver->username }}</div>
+                                            <div class="text-2xs text-gray-400 uppercase tracking-tighter">ID: #{{ $ongoing->id }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-600 font-medium ">{{ $ongoing->status=== 'ongoing'? 'On Going': 'N/A' }}</div>
+                                </td>
+
+       
+
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-700 font-medium">{{ $ongoing->dispatch_at->format('M d, Y')   }}, {{ $ongoing->dispatch_at->format('h:i A') }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-700 font-medium">{{ $ongoing->dispatcher->username }}</div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-right">
+                                    <div class="flex items-center justify-end gap-3">
+                                        <a href="" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
+                                            View
+                                        </a>
+                                        <span class="text-gray-200">|</span>
+                                        <a href="" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
+                                            Update
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-20 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <x-heroicon-o-users class="w-12 h-12 text-gray-200 mb-4" />
+                                        <p class="text-gray-500 font-medium">No ongoing rides found.</p>
+                                        <p class="text-xs text-gray-400 mt-1">Try adjusting your search filters.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                @if($ongoingRides->hasPages())
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                    {{ $ongoingRides->links() }}
+                </div>
+                @endif
             </div>
         </section>
 

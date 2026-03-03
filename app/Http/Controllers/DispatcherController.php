@@ -13,12 +13,17 @@ class DispatcherController extends Controller
     //
     public function dispatchDriver(Request $request)
     {
+        // dd($request);
+
+        // driver_id
+        // passenger_count
+        // remarks
+
         // 1. Validate (Note: Ensure the 'status' logic aligns with your business flow)
         $validated = $request->validate([
             'driver_id'       => 'required|exists:driver_information,user_id',
             'passenger_count' => 'required|integer|min:1',
             'remarks'         => 'nullable|string',
-            'status'          => 'required|in:ongoing,completed,cancelled',
         ]);
 
         // 2. Fetch the driver info and queue entry simultaneously
@@ -31,22 +36,23 @@ class DispatcherController extends Controller
             return response()->json(['message' => 'Driver not in queue or already dispatched'], 404);
         }
 
-
-        // Update Queue: change status
+        // // Update Queue: change status
         $driverQueueEntry->update([
             'status'         => 'on_ride',
         ]);
 
-        // Create Ride
+        // // Create Ride
         Ride::create([
             'driver_id'       => $validated['driver_id'],
             'dispatcher_id'   => Auth::id(),
             'passenger_count' => $validated['passenger_count'],
             'dispatch_at'     => now(),
+            'returned_at'     => now(),
             'remarks'         => $validated['remarks'],
-            'status'          => $validated['status'],
+            'status'          => 'ongoing',
         ]);
 
-        return response()->json(['message' => 'Driver dispatched successfully']);
+        // return response()->json(['message' => 'Driver dispatched successfully']);
+        return back()->with('success', 'Driver dispatched successfully');
     }
 }

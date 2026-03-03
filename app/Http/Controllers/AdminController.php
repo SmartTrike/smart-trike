@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DispatcherInformation;
 use App\Models\DriverInformation;
 use App\Models\DriverQueue;
+use App\Models\LostItem;
 use App\Models\Ride;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,7 @@ class AdminController extends Controller
             // Fetch ongoing rides with the associated driver information
             $ongoingRides = Ride::where('status', 'ongoing')
                 ->whereBetween('dispatch_at', [$today, $endOfDay])
-                ->with('driver')  // Assuming you have a relationship defined in the Ride model
+                ->with('driver')  
                 ->paginate(10);
 
 
@@ -49,6 +50,9 @@ class AdminController extends Controller
             $currentQueueDriver = DriverQueue::where('status', 'waiting')
                 ->orderBy('created_at', 'asc') // Assuming the first driver is the one with the earliest created_at
                 ->first();
+
+
+            $lostAndFoundCount = LostItem::where('status', 'reported')->count();
 
             // Fetch details for the current driver
             $driverDetails = null;
@@ -58,7 +62,7 @@ class AdminController extends Controller
 
 
             // Return the view with the data
-            return view('admin.dashboard', compact('activeQueueCount', 'onRideCount', 'completedCount', 'cancelledCount', 'ongoingRides', 'currentQueueDriver', 'driverDetails'));
+            return view('admin.dashboard', compact('activeQueueCount', 'onRideCount', 'completedCount', 'cancelledCount', 'ongoingRides', 'currentQueueDriver', 'driverDetails', 'lostAndFoundCount'));
         } catch (\Exception $e) {
             // Log the error for debugging and alerting
             Log::error('Error fetching dashboard data: ' . $e->getMessage());
@@ -74,7 +78,4 @@ class AdminController extends Controller
             ]);
         }
     }
-
-
-
 }

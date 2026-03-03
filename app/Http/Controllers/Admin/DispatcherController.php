@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DispatcherInformation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DispatcherController extends Controller
 {
@@ -15,7 +16,7 @@ class DispatcherController extends Controller
     public function index(Request $request)
     {
 
-        $dispatchers = DispatcherInformation::paginate(10);
+        $dispatchers = User::where('role', 'dispatcher')->paginate(10);
         return view('admin.dispatchers.index', compact('dispatchers'));
 
         // return $dataTable->render('admin.dispatchers.index');
@@ -81,15 +82,47 @@ class DispatcherController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Find the user first
+        $user = User::findOrFail($id);
+
+        // Find the information where user_id matches, and eager load 'user' to be safe
+        $dispatcherInformation = DispatcherInformation::where('user_id', $user->id)->firstOrFail();
+
+        return view('admin.dispatchers.edit', compact('dispatcherInformation'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, $id)
     {
-        //
+        // 1. Logic check: Find the user first (since $id is the User ID)
+        $user = User::findOrFail($id);
+
+        // 2. Find the associated info
+        $dispatcherInfo = DispatcherInformation::where('user_id', $user->id)->firstOrFail();
+
+        // 3. Validation
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => ['required', 'string', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'contact_number' => 'nullable|string',
+            'address' => 'nullable|string',
+        ]);
+
+        // 4. Update the User Account (Username and Email)
+        $user->update([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+        ]);
+
+        // 5. Update Personal Info (Everything else)
+        $dispatcherInfo->update($validated);
+
+        return back()->with('success', 'Dispatcher profile updated successfully.');
     }
 
     /**

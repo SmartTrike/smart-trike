@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DriverController as AdminDriverController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dispatcher\DispatcherController as DispatchController;
+use App\Http\Controllers\DispatcherController as ControllersDispatcherController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\QueueController;
@@ -26,9 +27,6 @@ Route::view('/', 'welcome');
 Route::get('/signup', [AuthController::class, 'showDriverForm'])->name('signup');
 Route::post('/signup/driver', [AuthController::class, 'registerDriver'])->name('signup.driver');
 
-
-
-
 // Login / Logout
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -40,26 +38,35 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
 
-
+    // Handle Dispatcher
     Route::get('/admin/dispatchers', [DispatcherController::class, 'index'])->name('admin.dispatchers.index');
     Route::get('/admin/dispatcher/data', [DispatcherController::class, 'getDispatchers'])->name('admin.dispatchers.data');
     Route::get('/admin/dispatchers/create', [DispatcherController::class, 'create'])->name('admin.dispatchers.create');
     Route::post('/admin/dispatchers/store', [DispatcherController::class, 'store'])->name('admin.dispatchers.store');
+    Route::get('/admin/dispatchers/{id}/edit', [DispatcherController::class, 'edit'])->name('admin.dispatchers.edit');
 
 
     // Handle Drivers
     Route::get('/admin/drivers-list', [AdminDriverController::class, 'index'])->name('admin.driver.list');
+    Route::get('/admin/driver/{id}/edit', [AdminDriverController::class, 'edit'])->name('admin.drivers.edit');
+    Route::post('/admin/driver/{id}/update', [AdminDriverController::class, 'update'])->name('admin.drivers.update');
+    Route::post('/admin/driver/{id}/updatePassword', [AdminDriverController::class, 'updatePassword'])->name('admin.drivers.updatePassword');
 
 
+    // Admin Functions
     Route::get('/admin/reports', [AdminController::class, 'reportView']);
 });
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/driver/dispatch', [\App\Http\Controllers\DispatcherController::class, 'dispatchDriver'])->name('driver.dispatch');
+});
+
 
 
 Route::middleware(['auth', 'role:driver'])->group(function () {
     Route::get('/driver/home', [DriverController::class, 'index'])->name('driver.home');
     Route::post('/queue/check-in', [DriverController::class, 'checkIn'])->name('driver.checkin');
-
-
 
     // Profile
     Route::get('/driver/profile', [DriverController::class, 'viewProfile'])->name('driver.profile');

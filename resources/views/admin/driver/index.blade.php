@@ -61,7 +61,7 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-600 font-medium">{{ $driver->email }}</div>
+                                <div class="text-sm text-gray-600 font-medium">{{ $driver->email ?? 'N/A' }}</div>
                             </td>
 
 
@@ -73,17 +73,17 @@
 
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <div class="flex items-center justify-end gap-3">
-                                    <a href="" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
+                                    <a href="{{ route('admin.drivers.edit', $driver->id) }}" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
                                         Edit
                                     </a>
                                     <span class="text-gray-200">|</span>
-                                    <form action="" method="POST" onsubmit="return confirm('Delete this driver account?');">
+                                    <!-- <form action="" method="POST" onsubmit="return confirm('Delete this driver account?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors">
                                             Delete
                                         </button>
-                                    </form>
+                                    </form> -->
                                 </div>
                             </td>
                         </tr>
