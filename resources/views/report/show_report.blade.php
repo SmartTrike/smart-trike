@@ -22,7 +22,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-900">Incident Review</h2>
-                        <p class="text-gray-500">Submitted by {{ $report->reporter->name ?? 'User' }} on {{ $report->created_at->format('M d, Y') }}</p>
+                        <p class="text-gray-500">Submitted on {{ $report->created_at->format('M d, Y') }}</p>
                     </div>
                     <div>
                         @php
