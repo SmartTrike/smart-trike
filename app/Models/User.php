@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,7 +18,7 @@ class User extends Authenticatable
         'email', // Added for standard Laravel auth/notifications
         'password',
         'role', // Added so you can assign roles on creation
-      
+
     ];
 
     protected $hidden = [
@@ -55,5 +56,29 @@ class User extends Authenticatable
     public function driverInfo(): HasOne
     {
         return $this->hasOne(DriverInformation::class, 'user_id');
+    }
+
+
+
+    // Reports 
+
+    public function reportsFiled(): HasMany
+    {
+        return $this->hasMany(Report::class, 'reported_by');
+    }
+
+    public function reportsAgainst(): HasMany
+    {
+        return $this->hasMany(Report::class, 'driver_id');
+    }
+
+    public function violations(): HasMany
+    {
+        return $this->hasMany(DriverViolation::class, 'driver_id');
+    }
+
+    public function violationsFiled(): HasMany
+    {
+        return $this->hasMany(DriverViolation::class, 'filed_by');
     }
 }

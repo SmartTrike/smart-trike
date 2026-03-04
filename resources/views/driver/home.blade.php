@@ -10,6 +10,8 @@
         </header>
 
         <div class="mb-10">
+
+
             @if($onRide)
             <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center">
@@ -58,6 +60,8 @@
             </div>
 
             @else
+
+            
             <div class="bg-green-50 border border-green-100 rounded-2xl p-6 flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="relative flex h-3 w-3 mr-4">

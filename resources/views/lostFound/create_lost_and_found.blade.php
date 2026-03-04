@@ -36,16 +36,7 @@
                         </select>
                     </div>
 
-                    <!-- Status -->
-                    <!-- <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                        <select name="status" id="status" class="w-full border border-gray-300 rounded-md p-2 mt-2" required>
-                            <option value="reported" {{ old('status') == 'reported' ? 'selected' : '' }}>Reported</option>
-                            <option value="claimed" {{ old('status') == 'claimed' ? 'selected' : '' }}>Claimed</option>
-                            <option value="returned" {{ old('status') == 'returned' ? 'selected' : '' }}>Returned</option>
-                            <option value="disposed" {{ old('status') == 'disposed' ? 'selected' : '' }}>Disposed</option>
-                        </select>
-                    </div> -->
+ 
 
                     <!-- Date Found/Lost -->
                     <div>

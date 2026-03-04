@@ -9,6 +9,8 @@ use App\Http\Controllers\DispatcherController as ControllersDispatcherController
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\QueueController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ViolationController;
 use App\Models\DriverInformation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -57,9 +59,26 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/reports', [AdminController::class, 'reportView']);
 });
 
-
+// Paths that are available for all users
 Route::middleware(['auth'])->group(function () {
     Route::post('/driver/dispatch', [\App\Http\Controllers\DispatcherController::class, 'dispatchDriver'])->name('driver.dispatch');
+
+
+    Route::get('/LostAndFound', [LostFoundController::class, 'index'])->name('lostAndFound');
+    Route::get('/create-lost-and-found', [LostFoundController::class, 'createLostAndFound'])->name('createLostAndFound');
+    Route::post('/store-lost-and-found', [LostFoundController::class, 'store'])->name('storeLostAndFound');
+    Route::get('/lost-and-found/{id}', [LostFoundController::class, 'show'])->name('showLostAndFound');
+    Route::patch('/lost-and-found/{id}/status', [LostFoundController::class, 'updateStatus'])->name('updateLostAndFoundStatus');
+
+
+    Route::get('/reports-violation', [ReportController::class, 'index'])->name('viewReportViolation');
+    Route::get('/create-new-report', [ReportController::class, 'createNewReport'])->name('createNewReport');
+    Route::post('/create-new-report', [ReportController::class, 'store'])->name('storeNewReport');
+    Route::get('/{id}/view-report', [ReportController::class, 'show'])->name('showReport');
+
+
+    Route::get('/violations/create/{report_id}', [ViolationController::class, 'create'])->name('violation.create');
+    Route::post('/violations/store', [ViolationController::class, 'store'])->name('violation.store');
 });
 
 
@@ -83,17 +102,14 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
     // Lost and Found
 
     Route::post('/driver/ride/{id}/complete', [DriverController::class, 'completeRide'])->name('driver.completeRide');
-    
+
     // Route::get('/driver/lostAndFound', [DriverController::class, 'updatePhoto'])->name('driver.lostAndFound');
     // Route::get('/driver/createLostAndFound', [DriverController::class, 'updatePhoto'])->name('driver.createLostAndFound');
     // Route::get('/driver/createLostAndFound', [DriverController::class, 'updatePhoto'])->name('driver.storeLostAndFound');
 });
 
-Route::get('/LostAndFound', [LostFoundController::class, 'index'])->name('lostAndFound');
-Route::get('/create-lost-and-found', [LostFoundController::class, 'createLostAndFound'])->name('createLostAndFound');
-Route::post('/store-lost-and-found', [LostFoundController::class, 'store'])->name('storeLostAndFound');
-Route::get('/lost-and-found/{id}', [LostFoundController::class, 'show'])->name('showLostAndFound');
-Route::patch('/lost-and-found/{id}/status', [LostFoundController::class, 'updateStatus'])->name('updateLostAndFoundStatus');
+
+
 
 
 // Dispatcher
