@@ -5,7 +5,7 @@
     <div class="max-w-5xl mx-auto">
 
         <div class="mb-6 flex items-center justify-between">
-            <a href="{{ route('viewReportViolation') }}" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+            <a href="{{ route('viewReport') }}" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -106,14 +106,14 @@
             <div class="p-8 bg-white border-t border-gray-100 flex flex-wrap gap-4 justify-between items-center">
                 <div class="flex gap-3">
                     {{-- Edit Button --}}
-                    <a href="{{ route('report.edit', $report->id) }}" class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-200 transition-all">
+                    <a href="" class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-200 transition-all">
                         Edit Report
                     </a>
                 </div>
 
                 <div class="flex flex-wrap gap-3">
                     {{-- Invalidate Button --}}
-                    <form action="{{ route('report.invalidate', $report->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to invalidate this report?');">
+                    <form action="" method="POST" onsubmit="return confirm('Are you sure you want to invalidate this report?');">
                         @csrf
                         @method('PATCH')
                         <button type="submit" class="px-6 py-2.5 border-2 border-red-50 text-red-600 rounded-xl text-sm font-bold hover:bg-red-50 transition-all">
@@ -130,6 +130,7 @@
                     </a>
                 </div>
             </div>
+            
             @elseif($report->status !== 'reported')
             {{-- Optional: Show a message for closed cases --}}
             <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">

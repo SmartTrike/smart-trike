@@ -63,10 +63,8 @@ class ReportController extends Controller
         ]);
 
         try {
-            // 2. Handle Image Upload (Optional)
             $path = null;
             if ($request->hasFile('evidence_image_path')) {
-                // Stores in storage/app/public/reports
                 $path = $request->file('evidence_image_path')->store('reports', 'public');
             }
 
@@ -81,10 +79,12 @@ class ReportController extends Controller
                 'evidence_image_path' => $path,
             ]);
 
-            return redirect()->route('report.index')
+            return redirect()->route('viewReport')
                 ->with('success', 'Incident report submitted successfully.');
+
+
         } catch (\Exception $e) {
-            // If something goes wrong, delete the uploaded image if it exists
+
             if (isset($path)) {
                 Storage::disk('public')->delete($path);
             }

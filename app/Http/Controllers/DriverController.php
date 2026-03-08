@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DriverInformation;
 use App\Models\DriverQueue;
-use App\Models\LostItem;
+use App\Models\DriverViolation;
 use App\Models\Ride;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,19 +15,28 @@ class DriverController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $today = now()->toDateString();
 
-        // Check if driver is currently on a ride
+        // 1. Check for Active Suspension
+        $activeViolation = DriverViolation::where('driver_id', $user->id)
+            ->whereDate('suspension_start_date', '<=', $today)
+            ->whereDate('suspension_end_date', '>=', $today)
+            ->first();
+
+        // If suspended, return a restricted view and skip queue/ride logic
+        if ($activeViolation) {
+            return view('driver.suspended', compact('activeViolation'));
+        }
+
+        // 2. Original Logic (only runs if NOT suspended)
         $currentRide = Ride::where('driver_id', $user->id)
             ->where('status', 'ongoing')
             ->first();
 
         $queuePosition = null;
-        $onRide = false;
+        $onRide = $currentRide ? true : false;
 
-        if ($currentRide) {
-            $onRide = true;
-        } else {
-            // Only look for queue position if NOT on a ride
+        if (! $onRide) {
             $myQueueRecord = DriverQueue::where('driver_id', $user->id)
                 ->where('status', 'waiting')
                 ->whereDate('created_at', now()->today())
@@ -55,7 +62,7 @@ class DriverController extends Controller
         // 1. Update the Ride status
         $ride->update([
             'status' => 'completed',
-            'returned_at' => now()
+            'returned_at' => now(),
         ]);
 
         DriverQueue::where('driver_id', $ride->driver_id)
@@ -99,7 +106,7 @@ class DriverController extends Controller
 
             // 4. Save to Database
             $driverInfo->update([
-                'profile_photo' => $path
+                'profile_photo' => $path,
             ]);
         }
 
@@ -113,17 +120,17 @@ class DriverController extends Controller
 
         // 1. Validation for all Driver Information fields
         $validated = $request->validate([
-            'first_name'            => 'required|string|max:50',
-            'middle_name'           => 'nullable|string|max:50',
-            'last_name'             => 'required|string|max:50',
-            'suffix'                => 'nullable|string|max:10',
-            'contact_number'        => 'required|string|max:20',
-            'address'               => 'required|string|max:255',
-            'birthdate'             => 'required|date|before:today',
-            'license_number'        => 'required|string|max:50|unique:driver_information,license_number,' . $driverInfo->id,
-            'plate_number'          => 'required|string|max:20|unique:driver_information,plate_number,' . $driverInfo->id,
-            'tricycle_body_number'  => 'required|string|max:20',
-            'model'                 => 'nullable|string|max:50',
+            'first_name' => 'required|string|max:50',
+            'middle_name' => 'nullable|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'suffix' => 'nullable|string|max:10',
+            'contact_number' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'birthdate' => 'required|date|before:today',
+            'license_number' => 'required|string|max:50|unique:driver_information,license_number,'.$driverInfo->id,
+            'plate_number' => 'required|string|max:20|unique:driver_information,plate_number,'.$driverInfo->id,
+            'tricycle_body_number' => 'required|string|max:20',
+            'model' => 'nullable|string|max:50',
         ]);
 
         // 2. Update the record
@@ -148,7 +155,6 @@ class DriverController extends Controller
         return back()->with('status', 'password-updated');
     }
 
-
     public function checkIn(Request $request)
     {
         $user = Auth::user();
@@ -167,13 +173,12 @@ class DriverController extends Controller
         // 2. Simple Create: The timestamp handles the "position" logic automatically
         DriverQueue::create([
             'driver_id' => $user->id,
-            'status'    => 'waiting',
+            'status' => 'waiting',
             'created_at' => $now,
         ]);
 
-        return redirect()->back()->with('success', "Checked in successfully!");
+        return redirect()->back()->with('success', 'Checked in successfully!');
     }
-
 
     public function tripHistory(Request $request)
     {
