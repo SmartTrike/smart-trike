@@ -54,8 +54,8 @@
                 </li>
 
                 <li>
-                    <a href="#"
-                        class="flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                    <a href="{{ route('admin.statistics') }}"
+                        class="{{ request()->routeIs('admin.statistics') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
                         <x-tabler-chart-dots
                             class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150" />
                         <span class="ml-3 font-semibold"> System Statistics</span>

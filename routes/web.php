@@ -8,6 +8,7 @@ use App\Http\Controllers\Dispatcher\DispatcherController as DispatchController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ViolationController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Admin Functions
     Route::get('/admin/reports', [AdminController::class, 'reportView']);
+
+    Route::get('/admin/reports', [AdminController::class, 'reportView']);
+    Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics');
+
+    // admin.statistics
 });
 
 // Paths that are available for all users
