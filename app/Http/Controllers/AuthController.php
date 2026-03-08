@@ -75,7 +75,7 @@ class AuthController extends Controller
                 'date',
                 'before_or_equal:' . now()->subYears(18)->toDateString(),
             ],
-            'license_number' => 'nullable|string|max:255',
+    
             'operator_name' => 'nullable|string|max:255',
             'operator_contact' => 'nullable|string|max:20',
             'mtop_number' => 'nullable|string|max:255',
@@ -111,7 +111,7 @@ class AuthController extends Controller
             'contact_number' => $request->contact_number,
             'address' => $request->address,
             'birthdate' => $request->birthdate,
-            'license_number' => $request->license_number,
+
             'license_expiry_date' => $request->license_expiry_date,
             'operator_name' => $request->operator_name,
             'operator_contact' => $request->operator_contact,

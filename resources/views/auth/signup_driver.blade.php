@@ -42,10 +42,7 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </label>
-                    <label class="flex flex-col">
-                        <p class="text-slate-800 text-base font-medium leading-normal pb-2">License Number</p>
-                        <input class="form-input flex w-full border border-gray-200 rounded-md p-2" required name="license_number" type="text" value="{{ old('license_number') }}" placeholder="Enter license number" />
-                    </label>
+                   
                 </div>
             </div>
 
