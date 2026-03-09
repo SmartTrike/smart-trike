@@ -88,8 +88,8 @@
                                         <input type="text" name="last_name" value="{{ old('last_name', $driverInfo->last_name) }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm">
                                     </div>
                                     <div>
-                                        <label class="block text-2xs font-bold text-gray-400 uppercase mb-2">License #</label>
-                                        <input type="text" name="license_number" value="{{ old('license_number', $driverInfo->license_number) }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                                        <label class="block text-2xs font-bold text-gray-400 uppercase mb-2">License Expiration Date</label>
+                                        <input type="date" name="license_expiry_date" value="{{ old('license_expiry_date', $driverInfo->license_expiry_date) }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm">
                                     </div>
                                     <div>
                                         <label class="block text-2xs font-bold text-gray-400 uppercase mb-2">Plate #</label>

@@ -91,10 +91,10 @@
                         <p class="text-gray-900 font-semibold text-lg">{{ $driverInfo->first_name }} {{ $driverInfo->last_name }}</p>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
+                        {{-- <div>
                             <label class="block text-xs font-medium text-gray-400 uppercase">License No.</label>
                             <p class="text-gray-700 font-medium">{{ $driverInfo->license_number ?? '—' }}</p>
-                        </div>
+                        </div> --}}
                         <div>
                             <label class="block text-xs font-medium text-gray-400 uppercase">Expiry</label>
                             <p class="text-gray-700 font-medium">{{ $driverInfo->license_expiry_date ? \Carbon\Carbon::parse($driverInfo->license_expiry_date)->format('M d, Y') : '—' }}</p>

@@ -86,7 +86,7 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-gray-400 uppercase">License No.</label>
-                            <p class="text-gray-700 font-medium">{{ $driverInfo->license_number ?? '—' }}</p>
+                            <p class="text-gray-700 font-medium">{{ $driverInfo->license_expiry_date ?? '—' }}</p>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-gray-400 uppercase">License Expiry</label>
@@ -164,8 +164,8 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase">License Number</label>
-                            <input type="text" name="license_number" value="{{ old('license_number', $driverInfo->license_number) }}" class="mt-1 w-full border-gray-300 rounded-md shadow-sm">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase">License Expiration Date</label>
+                            <input type="date" name="license_expiry_date" value="{{ old('license_expiry_date', $driverInfo->license_expiry_date) }}" class="mt-1 w-full border-gray-300 rounded-md shadow-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 uppercase">Plate Number</label>

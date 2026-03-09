@@ -127,7 +127,7 @@ class DriverController extends Controller
             'contact_number' => 'required|string|max:20',
             'address' => 'required|string|max:255',
             'birthdate' => 'required|date|before:today',
-            'license_number' => 'required|string|max:50|unique:driver_information,license_number,'.$driverInfo->id,
+            'license_expiry_date' => 'required|date,'.$driverInfo->id,
             'plate_number' => 'required|string|max:20|unique:driver_information,plate_number,'.$driverInfo->id,
             'tricycle_body_number' => 'required|string|max:20',
             'model' => 'nullable|string|max:50',

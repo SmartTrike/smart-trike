@@ -70,8 +70,8 @@
                             <p class="text-gray-800 font-semibold uppercase">{{ $driverDetails->plate_number ?? 'N/A' }}</p>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">License No.</label>
-                            <p class="text-gray-800 font-semibold uppercase">{{ $driverDetails->license_number ?? 'N/A' }}</p>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">License Expiration Date</label>
+                            <p class="text-gray-800 font-semibold uppercase">{{ $driverDetails->license_expiry_date ? \Carbon\Carbon::parse($driverDetails->license_expiry_date)->format('M d, Y') : '—' }}</p>
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Contact</label>

@@ -39,7 +39,7 @@ class DriverController extends Controller
             'last_name' => 'required|string|max:255',
             'username' => ['required', 'string', Rule::unique('users')->ignore($user->id)],
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'license_number' => 'nullable|string',
+            'license_expiry_date' => 'nullable|date',
             'plate_number' => 'nullable|string',
             'contact_number' => 'nullable|string',
             'address' => 'nullable|string',
