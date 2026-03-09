@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <h2 class="text-lg font-bold text-gray-900">{{ $driverInfo->first_name }} {{ $driverInfo->last_name }}</h2>
-                    <p class="text-xs font-bold text-blue-600 uppercase tracking-widest mt-1">Licensed Driver</p>
+                    <p class="text-xs font-bold text-blue-600 uppercase tracking-widest mt-1"> Driver</p>
                 </div>
 
                 <div class="bg-gray-900 rounded-2xl p-6 text-white shadow-lg">

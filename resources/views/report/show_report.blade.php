@@ -53,10 +53,10 @@
                             <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Driver Involved</h3>
                             <div class="flex items-center gap-3 p-3 border border-gray-100 rounded-2xl">
                                 <div class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold text-xs">
-                                    {{ strtoupper(substr($report->driver->name ?? 'D', 0, 1)) }}
+                                    {{ strtoupper(substr($report->driver->username ?? 'D', 0, 1)) }}
                                 </div>
                                 <div>
-                                    <div class="text-sm font-bold text-gray-900">{{ $report->driver->name ?? 'Unknown' }}</div>
+                                    <div class="text-sm font-bold text-gray-900">{{ $report->driver->username ?? 'Unknown' }}</div>
                                     <div class="text-xs text-gray-500">{{ $report->driver->email ?? 'N/A' }}</div>
                                 </div>
                             </div>

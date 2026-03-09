@@ -10,11 +10,11 @@
                     <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Manage Drivers</h1>
                     <p class="text-gray-500 mt-1">Create and manage accounts for drivers.</p>
                 </div>
-                <div class="flex gap-4">
+                {{-- <div class="flex gap-4">
                     <a href="" class="px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-black transition-all shadow-sm">
                         Add New Driver
                     </a>
-                </div>
+                </div> --}}
             </div>
         </header>
 
