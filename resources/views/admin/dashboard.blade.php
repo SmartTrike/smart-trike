@@ -159,7 +159,7 @@
 
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-3">
-                                        <a href="" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
+                                        <a href="{{ route('ongoing-rides.show', $ongoing->id) }}" class="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors">
                                             View
                                         </a>
                                         <span class="text-gray-200">|</span>

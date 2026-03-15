@@ -129,4 +129,24 @@ class ReportController extends Controller
     {
         //
     }
+
+
+    public function invalidate(Request $request, $id)
+{
+    $report = Report::findOrFail($id);
+
+    // Security Check: Only allow if status is currently 'reported'
+    if ($report->status !== 'reported') {
+        return back()->with('error', 'Only pending reports can be invalidated.');
+    }
+
+    $report->update([
+        'status' => 'invalid',
+        // You could also update remarks here if you add an input field
+        // 'remarks' => $request->remarks 
+    ]);
+
+    return redirect()->route('viewReport')
+        ->with('success', 'Report #' . $id . ' has been marked as invalid.');
+}
 }

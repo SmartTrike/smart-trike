@@ -139,10 +139,13 @@
                                     {{ $ongoing->dispatcher->username }}
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <button onclick="openUpdateRideModal({{ $ongoing->id }}, '{{ $ongoing->driver->username }}', '{{ $ongoing->status }}')"
+                                    {{-- <button onclick="openUpdateRideModal({{ $ongoing->id }}, '{{ $ongoing->driver->username }}', '{{ $ongoing->status }}')"
                                         class="text-2xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors  px-3 py-1 rounded-md ">
                                         Update Status
-                                    </button>
+                                    </button> --}}
+                                        <a href="{{ route('ongoing-rides.show', $ongoing->id) }}"     class="text-2xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors  px-3 py-1 rounded-md ">
+                                      View
+                                    </a>
                                 </td>
                             </tr>
                             @empty

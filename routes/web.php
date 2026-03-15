@@ -8,6 +8,7 @@ use App\Http\Controllers\Dispatcher\DispatcherController as DispatchController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RideController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ViolationController;
 use Illuminate\Support\Facades\Route;
@@ -40,13 +41,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dispatcher/data', [DispatcherController::class, 'getDispatchers'])->name('admin.dispatchers.data');
     Route::get('/admin/dispatchers/create', [DispatcherController::class, 'create'])->name('admin.dispatchers.create');
     Route::post('/admin/dispatchers/store', [DispatcherController::class, 'store'])->name('admin.dispatchers.store');
+
     Route::get('/admin/dispatchers/{id}/edit', [DispatcherController::class, 'edit'])->name('admin.dispatchers.edit');
+    Route::put('/admin/dispatchers/{id}/update', [DispatcherController::class, 'update'])->name('admin.dispatchers.update');
+    Route::patch('/admin/dispatchers/{id}/force-password', [DispatcherController::class, 'forcePasswordUpdate'])
+        ->name('admin.dispatchers.password');
 
     // Handle Drivers
     Route::get('/admin/drivers-list', [AdminDriverController::class, 'index'])->name('admin.driver.list');
     Route::get('/admin/driver/{id}/edit', [AdminDriverController::class, 'edit'])->name('admin.drivers.edit');
-    Route::post('/admin/driver/{id}/update', [AdminDriverController::class, 'update'])->name('admin.drivers.update');
-    Route::post('/admin/driver/{id}/updatePassword', [AdminDriverController::class, 'updatePassword'])->name('admin.drivers.updatePassword');
+
+    Route::put('admin/driver/{id}/update', [AdminDriverController::class, 'update'])->name('admin.drivers.update');
+    Route::patch('admin/driver/{id}/update-password', [AdminDriverController::class, 'updatePassword'])->name('admin.drivers.updatePassword');
 
     // Admin Functions
     Route::get('/admin/reports', [AdminController::class, 'reportView']);
@@ -71,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create-new-report', [ReportController::class, 'createNewReport'])->name('createNewReport');
     Route::post('/create-new-report', [ReportController::class, 'store'])->name('storeNewReport');
     Route::get('/{id}/view-report', [ReportController::class, 'show'])->name('showReport');
+ 
+    Route::patch('/reports/{id}/invalidate', [ReportController::class, 'invalidate'])->name('reports.invalidate');
 
     Route::get('/violations-list', [ViolationController::class, 'index'])->name('viewViolationList');
     Route::get('/my-violation', [ViolationController::class, 'viewMyViolation'])->name('viewMyViolation');
@@ -80,6 +88,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/violations/create/{report_id}', [ViolationController::class, 'create'])->name('violation.create');
     Route::post('/violations/store', [ViolationController::class, 'store'])->name('violation.store');
+
+
+    Route::get('/ongoing-rides/{id}', [RideController::class, 'show'])->name('ongoing-rides.show');
+
 });
 
 Route::middleware(['auth', 'role:driver'])->group(function () {
@@ -109,6 +121,7 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
         ->name('driver.violations');
     Route::get('/my-violations/{id}', [ViolationController::class, 'showMyViolation'])
         ->name('driver.violation.show');
+
 });
 
 // Dispatcher

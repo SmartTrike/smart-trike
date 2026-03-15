@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DispatcherInformation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class DispatcherController extends Controller
@@ -15,12 +16,22 @@ class DispatcherController extends Controller
      */
     public function index(Request $request)
     {
+        // 1. Get the search term
+        $search = $request->input('search');
 
-        $dispatchers = User::where('role', 'dispatcher')->paginate(10);
+        // 2. Query users with the role 'dispatcher'
+        $dispatchers = User::where('role', 'dispatcher')
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('username', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->latest() // Show newest first
+            ->paginate(10)
+            ->withQueryString(); // This keeps the search parameter in pagination links
+
         return view('admin.dispatchers.index', compact('dispatchers'));
-
-        // return $dataTable->render('admin.dispatchers.index');
-        // return view('admin.dispatchers.index');
     }
 
     /**
@@ -94,35 +105,52 @@ class DispatcherController extends Controller
     /**
      * Update the specified resource in storage.
      */
-
     public function update(Request $request, $id)
     {
-        // 1. Logic check: Find the user first (since $id is the User ID)
+        // 1. Find the User (assuming $id is the user_id)
         $user = User::findOrFail($id);
-
-        // 2. Find the associated info
         $dispatcherInfo = DispatcherInformation::where('user_id', $user->id)->firstOrFail();
 
-        // 3. Validation
+        // 2. Validation
         $validated = $request->validate([
+            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'username' => ['required', 'string', Rule::unique('users')->ignore($user->id)],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'contact_number' => 'nullable|string',
-            'address' => 'nullable|string',
+            'contact_number' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
         ]);
 
-        // 4. Update the User Account (Username and Email)
+        // 3. Update User Table
         $user->update([
             'username' => $validated['username'],
             'email' => $validated['email'],
         ]);
 
-        // 5. Update Personal Info (Everything else)
-        $dispatcherInfo->update($validated);
+        // 4. Update DispatcherInformation Table
+        $dispatcherInfo->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'contact_number' => $validated['contact_number'],
+            'address' => $validated['address'],
+        ]);
 
         return back()->with('success', 'Dispatcher profile updated successfully.');
+    }
+
+    public function forcePasswordUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()->with('success', 'Password has been force-reset successfully.');
     }
 
     /**
@@ -132,7 +160,6 @@ class DispatcherController extends Controller
     {
         //
     }
-
 
     // public function getDispatchers(Request $request)
     // {
