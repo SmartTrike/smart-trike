@@ -175,7 +175,7 @@
                     (decodedText) => {
                         console.log("Found QR:", decodedText);
                         if (decodedText.trim() ===
-                            "https://henley-neaped-unemphatically.ngrok-free.dev/queue/check-in") {
+                            "https://smart-trike-main-1f8me9.free.laravel.cloud/queue/check-in") {
                             html5QrCode.stop().then(() => {
                                 checkinForm.submit();
                             });
