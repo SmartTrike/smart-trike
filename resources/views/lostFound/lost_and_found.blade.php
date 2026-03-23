@@ -49,7 +49,16 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     @if($item->image_path)
-                                    <img src="{{ asset('storage/' . $item->image_path) }}" class="w-10 h-10 rounded-lg object-cover border border-gray-100">
+                                    {{-- <img src="{{ asset('storage/' . $item->image_path) }}" class="w-10 h-10 rounded-lg object-cover border border-gray-100"> --}}
+
+                                     <x-cloudinary::image 
+                                                    width="100" 
+                                                    height="100" 
+                                                    crop="thumb"
+                                                    public-id="{{ $item->image_path }}"
+                                                    class="w-10 h-10 rounded-lg object-cover border border-gray-100"
+                                                    alt="Evidence" ></x-cloudinary::image>
+
                                     @else
                                     <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
                                         <x-heroicon-o-camera class="w-5 h-5" />

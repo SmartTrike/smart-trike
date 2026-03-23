@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
@@ -48,53 +49,51 @@ class ReportController extends Controller
 
         return view('report.create_report', compact('drivers'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function store(Request $request)
-    {
-        // 1. Validation
-        $validated = $request->validate([
-            'driver_id' => 'required|exists:users,id',
-            'description' => 'required|string|min:10',
-            'event_date' => 'required|date|before_or_equal:now',
-            'remarks' => 'nullable|string|max:1000',
-            'evidence_image_path' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // Max 5MB
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'driver_id' => 'required|exists:users,id', // Added safety check
+        'description' => 'required|string',
+        'event_date' => 'required|date|before_or_equal:now',
+        'remarks' => 'nullable|string|max:1000',
+        'evidence_image_path' => 'nullable|image|max:5120',
+    ]);
+
+    $publicId = null;
+
+    try {
+        if ($request->hasFile('evidence_image_path')) {
+         
+            $publicId = Storage::disk('cloudinary')->put('reports', $request->file('evidence_image_path'));
+        }
+
+        Report::create([
+            'description' => $validated['description'],
+            'status' => 'reported',
+            'reported_by' => Auth::id(),
+            'driver_id' => $validated['driver_id'],
+            'event_date' => $validated['event_date'],
+            'remarks' => $validated['remarks'] ?? null,
+            'evidence_image_path' => $publicId, 
         ]);
 
-        try {
-            $path = null;
-            if ($request->hasFile('evidence_image_path')) {
-                $path = $request->file('evidence_image_path')->store('reports', 'public');
-            }
+        return redirect()->route('viewReport')->with('success', 'Submitted!');
 
-            // 3. Create the Database Record
-            Report::create([
-                'description'   => $validated['description'],
-                'status'        => 'reported', // Default status from migration
-                'reported_by'   => Auth::id(), // The logged-in user filing the report
-                'driver_id'     => $validated['driver_id'],
-                'event_date'    => $validated['event_date'],
-                'remarks'       => $validated['remarks'] ?? null,
-                'evidence_image_path' => $path,
-            ]);
-
-            return redirect()->route('viewReport')
-                ->with('success', 'Incident report submitted successfully.');
-
-
-        } catch (\Exception $e) {
-
-            if (isset($path)) {
-                Storage::disk('public')->delete($path);
-            }
-
-            return back()->withInput()
-                ->with('error', 'An error occurred while saving the report. Please try again.');
+    } catch (\Exception $e) {
+        if ($publicId) {
+            Storage::disk('cloudinary')->delete($publicId);
         }
+        
+        // Log the real error so you can check storage/logs/laravel.log
+        Log::error("Upload Failed: " . $e->getMessage());
+
+        return back()->withInput()->with('error', 'Debug Error: ' . $e->getMessage());
     }
-
-
+}
 
     /**
      * Display the specified resource.
@@ -106,6 +105,7 @@ class ReportController extends Controller
 
         return view('report.show_report', compact('report'));
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -130,23 +130,22 @@ class ReportController extends Controller
         //
     }
 
-
     public function invalidate(Request $request, $id)
-{
-    $report = Report::findOrFail($id);
+    {
+        $report = Report::findOrFail($id);
 
-    // Security Check: Only allow if status is currently 'reported'
-    if ($report->status !== 'reported') {
-        return back()->with('error', 'Only pending reports can be invalidated.');
+        // Security Check: Only allow if status is currently 'reported'
+        if ($report->status !== 'reported') {
+            return back()->with('error', 'Only pending reports can be invalidated.');
+        }
+
+        $report->update([
+            'status' => 'invalid',
+            // You could also update remarks here if you add an input field
+            // 'remarks' => $request->remarks
+        ]);
+
+        return redirect()->route('viewReport')
+            ->with('success', 'Report #'.$id.' has been marked as invalid.');
     }
-
-    $report->update([
-        'status' => 'invalid',
-        // You could also update remarks here if you add an input field
-        // 'remarks' => $request->remarks 
-    ]);
-
-    return redirect()->route('viewReport')
-        ->with('success', 'Report #' . $id . ' has been marked as invalid.');
-}
 }

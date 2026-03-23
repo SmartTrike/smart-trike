@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
     use HasFactory;
+
+    protected $table = 'reports';
 
     protected $fillable = [
         'description',
@@ -17,13 +19,13 @@ class Report extends Model
         'reviewed_by',
         'violation_id',
         'event_date',
-        'admin_remarks',
-        'evidence',
+        'remarks',
+        'evidence_image_path',
     ];
 
     protected $casts = [
         'event_date' => 'datetime',
-        'evidence' => 'array',
+        'evidence_image_path' => 'array',
     ];
 
     /*

@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\LostItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class LostFoundController extends Controller
 {
-
-
     // // Lost and Found
     // public function lostAndFound()
     // {
@@ -54,7 +54,6 @@ class LostFoundController extends Controller
     //     return view('driver.view_lost_and_found_item', compact('item'));
     // }
 
-
     /**
      * Display a listing of the resource.
      */
@@ -73,6 +72,7 @@ class LostFoundController extends Controller
     {
         return view('lostFound.create_lost_and_found');
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -81,43 +81,64 @@ class LostFoundController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+
     public function store(Request $request)
     {
-        // Validate the input fields
-        $request->validate([
+        // 1. Validation with "Before or Equal to Now" for the date
+        $validated = $request->validate([
             'item_name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'type' => 'required|in:lost,found',
-
-            'date_found_lost' => 'nullable|date',
+            'date_found_lost' => 'nullable|date|before_or_equal:now',
             'location_found_lost' => 'nullable|string|max:255',
             'remarks' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120', // Increased to 5MB like your reports
         ]);
 
-        // Create a new lost and found item
-        $lostAndFoundItem = new LostItem();
-        $lostAndFoundItem->item_name = $request->item_name;
-        $lostAndFoundItem->description = $request->description;
-        $lostAndFoundItem->type = $request->type;
-        $lostAndFoundItem->status = 'reported';
-        $lostAndFoundItem->reported_by = Auth::user()->id;  // Store the user who reported
-        $lostAndFoundItem->date_found_lost = $request->date_found_lost;
-        $lostAndFoundItem->location_found_lost = $request->location_found_lost;
-        $lostAndFoundItem->remarks = $request->remarks;
+        $publicId = null;
 
-        // Handle image upload if present
-        if ($request->hasFile('image')) {
-            $lostAndFoundItem->image_path = $request->file('image')->store('lost_and_found_images', 'public');
+        try {
+            // 2. Handle Cloudinary Upload via Disk
+            if ($request->hasFile('image')) {
+                // Stores in 'lost_and_found' folder on Cloudinary
+                $publicId = Storage::disk('cloudinary')->put('lost_and_found', $request->file('image'));
+
+                if (! $publicId) {
+                    throw new \Exception('Cloudinary upload failed.');
+                }
+            }
+
+            // 3. Database Persistence (Mass Assignment)
+            LostItem::create([
+                'item_name' => $validated['item_name'],
+                'description' => $validated['description'],
+                'type' => $validated['type'],
+                'status' => 'reported',
+                'reported_by' => Auth::id(),
+                'date_found_lost' => $validated['date_found_lost'],
+                'location_found_lost' => $validated['location_found_lost'],
+                'remarks' => $validated['remarks'] ?? null,
+                'image_path' => $publicId, // Store the Public ID
+            ]);
+
+            return redirect()->route('lostAndFound')
+                ->with('success', 'Item reported successfully.');
+
+        } catch (\Exception $e) {
+            // 4. Log the error and Clean up Cloudinary if DB save failed
+            Log::error('Lost & Found Store Error: '.$e->getMessage(), [
+                'user_id' => Auth::id(),
+            ]);
+
+            if ($publicId) {
+                Storage::disk('cloudinary')->delete($publicId);
+            }
+
+            return back()
+                ->withInput()
+                ->with('error', 'An error occurred while reporting the item: '.$e->getMessage());
         }
-
-        // Save the item
-        $lostAndFoundItem->save();
-
-        return redirect()->route('lostAndFound')->with('success', 'Item reported successfully.');
     }
 
     /**
@@ -148,12 +169,11 @@ class LostFoundController extends Controller
         //
     }
 
-
     public function updateStatus(Request $request, $id)
     {
         // 2. Validation
         $validated = $request->validate([
-            'status'  => 'required|in:reported,claimed,returned,disposed',
+            'status' => 'required|in:reported,claimed,returned,disposed',
             'remarks' => 'nullable|string|max:500',
         ]);
 
@@ -163,16 +183,15 @@ class LostFoundController extends Controller
         // 4. Update the record
         // We also track WHO updated it using 'updated_by'
         $item->update([
-            'status'     => $validated['status'],
-            'remarks'    => $validated['remarks'],
+            'status' => $validated['status'],
+            'remarks' => $validated['remarks'],
             'updated_by' => Auth::id(),
         ]);
 
         // 5. Success Response
         return redirect()->route('showLostAndFound', $item->id)
-            ->with('success', 'Item status has been updated to ' . ucfirst($validated['status']) . '.');
+            ->with('success', 'Item status has been updated to '.ucfirst($validated['status']).'.');
     }
-
 
     /**
      * Remove the specified resource from storage.

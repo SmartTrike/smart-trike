@@ -94,13 +94,17 @@
 
                     <div class="p-8 bg-gray-50/20">
                         <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Evidence Image</h3>
+
                         @if ($report->evidence_image_path)
-                            <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-                                <img src="{{ asset('storage/' . $report->evidence_image_path) }}"
+                            <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+                                {{-- Proper Blade Component Tag --}}
+                                <x-cloudinary::image public-id="{{ $report->evidence_image_path }}" width="auto" crop="scale"
                                     class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500"
-                                    alt="Evidence">
+                                    alt="Evidence" ></x-cloudinary::image>
                             </div>
-                            <a href="{{ asset('storage/' . $report->evidence_image_path) }}" target="_blank"
+
+                            {{-- The Full Image Link --}}
+                            <a href="{{ Storage::disk('cloudinary')->url($report->evidence_image_path) }}" target="_blank"
                                 class="mt-4 flex items-center justify-center text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -133,7 +137,7 @@
                     </a>
                 </div> --}}
 
-                <div></div>
+                        <div></div>
 
                         <div class="flex flex-wrap gap-3">
                             {{-- Invalidate Button --}}

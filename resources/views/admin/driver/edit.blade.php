@@ -23,7 +23,16 @@
                     <div class="relative w-32 h-32 mx-auto mb-4">
                         <div class="w-full h-full rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-sm">
                             @if ($driverInfo->profile_photo)
-                                <img src="{{ asset('storage/' . $driverInfo->profile_photo) }}" class="w-full h-full object-cover">
+                                {{-- <img src="{{ asset('storage/' . $driverInfo->profile_photo) }}" class="w-full h-full object-cover"> --}}
+
+                                   <x-cloudinary::image 
+                                                  
+                                                    public-id="{{ $driverInfo->profile_photo }}"
+                                                    class="w-full h-full object-cover"
+                                                    alt="Profile" >
+
+                                                </x-cloudinary::image>
+
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50">
                                     <x-heroicon-s-user class="w-16 h-16" />

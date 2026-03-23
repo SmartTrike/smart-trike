@@ -13,14 +13,16 @@
         "andreiio/blade-remix-icon": "^3.7",
         "blade-ui-kit/blade-heroicons": "^2.6",
         "blade-ui-kit/blade-icons": "^1.8",
+        "cloudinary-labs/cloudinary-laravel": "^3.0",
         "codeat3/blade-clarity-icons": "^1.10",
         "codeat3/blade-google-material-design-icons": "^1.20",
         "codeat3/blade-pepicons": "^1.6",
         "davidhsianturi/blade-bootstrap-icons": "^2.1",
+        "intervention/image-laravel": "^1.5",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "secondnetwork/blade-tabler-icons": "^3.36"
-     
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

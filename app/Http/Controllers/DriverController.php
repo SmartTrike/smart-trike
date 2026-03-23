@@ -8,7 +8,9 @@ use App\Models\Ride;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 
 class DriverController extends Controller
 {
@@ -82,35 +84,51 @@ class DriverController extends Controller
 
     public function updatePhoto(Request $request)
     {
-        // 1. Validation: 'max:2048' is exactly 2MB (2048 KB)
+        // 1. Validation (2MB limit)
         $request->validate([
-            'profile_photo' => [
-                'required',
-                'image',
-                'mimes:jpg,jpeg,png,gif',
-                'max:2048', // 2048 KB = 2MB
-            ],
+            'profile_photo' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $user = Auth::user();
         $driverInfo = $user->driverInfo;
+        $newPublicId = null;
 
-        if ($request->hasFile('profile_photo')) {
-            // 2. Delete the old photo if it exists
-            if ($driverInfo->profile_photo) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($driverInfo->profile_photo);
+        try {
+            if ($request->hasFile('profile_photo')) {
+
+                // 2. Upload the new photo to Cloudinary first
+                // We use a specific 'profiles' folder
+                $newPublicId = Storage::disk('cloudinary')->put('profiles', $request->file('profile_photo'));
+
+                if (! $newPublicId) {
+                    throw new \Exception('Failed to upload image to Cloudinary.');
+                }
+
+                // 3. Delete the old photo if it exists
+                if ($driverInfo->profile_photo) {
+                    // This works for both local paths and Cloudinary Public IDs
+                    // as long as the 'cloudinary' disk is specified.
+                    Storage::disk('cloudinary')->delete($driverInfo->profile_photo);
+                }
+
+                // 4. Update the Database with the new Public ID
+                $driverInfo->update([
+                    'profile_photo' => $newPublicId,
+                ]);
             }
 
-            // 3. Store the new photo
-            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            return back()->with('success', 'Profile photo updated successfully.');
 
-            // 4. Save to Database
-            $driverInfo->update([
-                'profile_photo' => $path,
-            ]);
+        } catch (\Exception $e) {
+            Log::error('Profile Photo Update Error: '.$e->getMessage());
+
+            // Cleanup: If the DB update failed, delete the newly uploaded image
+            if ($newPublicId) {
+                Storage::disk('cloudinary')->delete($newPublicId);
+            }
+
+            return back()->with('error', 'Could not update photo: '.$e->getMessage());
         }
-
-        return back()->with('success', 'Profile photo updated successfully.');
     }
 
     public function updateInformation(Request $request)
