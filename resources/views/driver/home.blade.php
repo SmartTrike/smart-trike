@@ -86,6 +86,35 @@
                 @endif
             </div>
 
+               {{-- Info Card for Active Fare --}}
+
+            @if($fare)
+            <div class="mb-8 bg-indigo-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                        <span class="text-indigo-200 text-xs font-bold uppercase tracking-widest">Currently Active Rate</span>
+                        <h2 class="text-2xl font-bold mt-1">{{ $fare->label }}</h2>
+                    </div>
+                    <div class="flex gap-8">
+                        <div class="text-center">
+                            <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
+                            <p class="text-xl font-bold">₱{{ number_format($fare->trip_fare, 2) }}</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-indigo-300 text-xs uppercase font-semibold">Terminal</p>
+                            <p class="text-xl font-bold">₱{{ number_format($fare->terminal_fare, 2) }}</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
+                            <p class="text-xl font-bold">₱{{ number_format($fare->hire_fare, 2) }}</p>
+                        </div>
+                    </div>
+                </div>
+                {{-- Decorative background icon --}}
+                <x-tabler-receipt-2 class="absolute -right-4 -bottom-4 w-32 h-32 text-white/10 rotate-12" />
+            </div>
+            @endif
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                 <section class="space-y-6">

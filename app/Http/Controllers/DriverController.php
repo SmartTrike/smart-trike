@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DriverQueue;
 use App\Models\DriverViolation;
+use App\Models\FareSetting;
 use App\Models\Ride;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,8 @@ class DriverController extends Controller
             ->where('status', 'ongoing')
             ->first();
 
+        $fare = FareSetting::where('is_current', true)->first();
+
         $queuePosition = null;
         $onRide = $currentRide ? true : false;
 
@@ -54,7 +57,7 @@ class DriverController extends Controller
 
         $driverInfo = $user->driverInfo;
 
-        return view('driver.home', compact('driverInfo', 'queuePosition', 'onRide', 'currentRide'));
+        return view('driver.home', compact('driverInfo', 'queuePosition', 'onRide', 'currentRide', 'fare'));
     }
 
     public function completeRide(Request $request, $id)

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dispatcher\DispatcherController as DispatchController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\FareSettingController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RideController;
@@ -62,6 +63,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics');
 
     // admin.statistics
+
+    Route::get('/admin/fare-settings', [FareSettingController::class, 'index'])->name('admin.fare.index');
+    Route::get('/admin/fare-create', [FareSettingController::class, 'create'])->name('admin.fare.create');
+    Route::post('/admin/fare-create', [FareSettingController::class, 'store'])->name('admin.fare.store');
+    Route::get('/admin/fare-settings/{id}/edit', [FareSettingController::class, 'edit'])->name('admin.fare.edit');
+    Route::put('/admin/fare-settings/{id}', [FareSettingController::class, 'update'])->name('admin.fare.update');
 });
 
 // Paths that are available for all users
@@ -78,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create-new-report', [ReportController::class, 'createNewReport'])->name('createNewReport');
     Route::post('/create-new-report', [ReportController::class, 'store'])->name('storeNewReport');
     Route::get('/{id}/view-report', [ReportController::class, 'show'])->name('showReport');
- 
+
     Route::patch('/reports/{id}/invalidate', [ReportController::class, 'invalidate'])->name('reports.invalidate');
 
     Route::get('/violations-list', [ViolationController::class, 'index'])->name('viewViolationList');
@@ -89,7 +96,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/violations/create/{report_id}', [ViolationController::class, 'create'])->name('violation.create');
     Route::post('/violations/store', [ViolationController::class, 'store'])->name('violation.store');
-
 
     Route::get('/ongoing-rides/{id}', [RideController::class, 'show'])->name('ongoing-rides.show');
 

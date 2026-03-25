@@ -61,6 +61,8 @@
                         <span class="ml-3 font-semibold"> System Statistics</span>
                     </a>
                 </li>
+
+
             @endif
 
             <!-- Dispatcher Role -->
@@ -180,6 +182,19 @@
                     <span class="ml-3 font-semibold">Lost and Found</span>
                 </a>
             </li>
+
+
+            @if (auth()->user()->role === 'admin')
+                
+                <li>
+                    <a href="{{ route('admin.fare.index') }}"
+                        class="{{ request()->routeIs('admin.fare.index') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
+                        <x-tabler-receipt-2
+                            class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 " />
+                        <span class="ml-3 font-semibold">Fare Descriptions</span>
+                    </a>
+                </li>
+            @endif
         </ul>
 
         {{-- Logout Button --}}
