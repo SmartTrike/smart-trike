@@ -46,10 +46,10 @@
                             <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
                             <p class="text-xl font-bold">₱{{ number_format($fare->trip_fare, 2) }}</p>
                         </div>
-                        <div class="text-center">
+                        {{-- <div class="text-center">
                             <p class="text-indigo-300 text-xs uppercase font-semibold">Terminal</p>
                             <p class="text-xl font-bold">₱{{ number_format($fare->terminal_fare, 2) }}</p>
-                        </div>
+                        </div> --}}
                         <div class="text-center">
                             <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
                             <p class="text-xl font-bold">₱{{ number_format($fare->hire_fare, 2) }}</p>
@@ -71,7 +71,7 @@
                 <p class="text-xs text-gray-500">Please contact the administrator to initialize fare settings.</p>
             </div>
         </div>
-        
+
             @endif
             
 

@@ -6,7 +6,7 @@
             <header class="mb-8">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Fare Descriptions</h1>
+                        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Trip Fare</h1>
                         <p class="text-gray-500 mt-1">Manage system-wide pricing for trips, terminals, and hire services.</p>
                     </div>
                     <div class="flex gap-4">
@@ -36,10 +36,10 @@
                                 <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
                                 <p class="text-xl font-bold">₱{{ number_format($activeFare->trip_fare, 2) }}</p>
                             </div>
-                            <div class="text-center">
+                            {{-- <div class="text-center">
                                 <p class="text-indigo-300 text-xs uppercase font-semibold">Terminal</p>
                                 <p class="text-xl font-bold">₱{{ number_format($activeFare->terminal_fare, 2) }}</p>
-                            </div>
+                            </div> --}}
                             <div class="text-center">
                                 <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
                                 <p class="text-xl font-bold">₱{{ number_format($activeFare->hire_fare, 2) }}</p>
@@ -82,8 +82,8 @@
                                     Label</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
                                     Trip Fare</th>
-                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
-                                    Terminal</th>
+                                {{-- <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
+                                    Terminal</th> --}}
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
                                     Hire Fare</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-center">
@@ -111,9 +111,9 @@
                                     <td class="px-6 py-4 text-right font-medium text-gray-700">
                                         ₱{{ number_format($fare->trip_fare, 2) }}
                                     </td>
-                                    <td class="px-6 py-4 text-right font-medium text-gray-700">
+                                    {{-- <td class="px-6 py-4 text-right font-medium text-gray-700">
                                         ₱{{ number_format($fare->terminal_fare, 2) }}
-                                    </td>
+                                    </td> --}}
                                     <td class="px-6 py-4 text-right font-medium text-gray-700">
                                         ₱{{ number_format($fare->hire_fare, 2) }}
                                     </td>

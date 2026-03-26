@@ -37,7 +37,7 @@ class FareSettingController extends Controller
         $validated = $request->validate([
             'label' => 'required|string|max:255',
             'trip_fare' => 'required|numeric|min:0|max:999999',
-            'terminal_fare' => 'required|numeric|min:0|max:999999',
+            // 'terminal_fare' => 'required|numeric|min:0|max:999999',
             'hire_fare' => 'required|numeric|min:0|max:999999',
             'is_current' => 'nullable|boolean',
         ]);

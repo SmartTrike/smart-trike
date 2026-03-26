@@ -56,10 +56,10 @@
                                 <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
                                 <p class="text-xl font-bold">₱{{ number_format($fare->trip_fare, 2) }}</p>
                             </div>
-                            <div class="text-center">
+                            {{-- <div class="text-center">
                                 <p class="text-indigo-300 text-xs uppercase font-semibold">Terminal</p>
                                 <p class="text-xl font-bold">₱{{ number_format($fare->terminal_fare, 2) }}</p>
-                            </div>
+                            </div> --}}
                             <div class="text-center">
                                 <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
                                 <p class="text-xl font-bold">₱{{ number_format($fare->hire_fare, 2) }}</p>
@@ -77,7 +77,7 @@
                             class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-4">
                             <x-tabler-alert-triangle class="w-10 h-10" />
                         </div>
-                        <h2 class="text-xl font-bold text-amber-900">No Active Fare Description Found</h2>
+                        <h2 class="text-xl font-bold text-amber-900">No Active Trip Fare Found</h2>
                         <p class="text-amber-700 mt-2 max-w-md mx-auto">
                             Please create a new fare or <strong>activate</strong> an existing one from the list below to
                             enable.

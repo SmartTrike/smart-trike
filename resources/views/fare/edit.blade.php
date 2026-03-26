@@ -36,11 +36,11 @@
                             <input type="number" step="0.01" name="trip_fare" value="{{ old('trip_fare', $fare->trip_fare) }}"
                                 class="w-full border border-gray-300 rounded-xl p-3 mt-2 outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
-                        <div>
+                        {{-- <div>
                             <label class="block text-sm font-bold text-gray-700">Terminal Fare (₱)</label>
                             <input type="number" step="0.01" name="terminal_fare" value="{{ old('terminal_fare', $fare->terminal_fare) }}"
                                 class="w-full border border-gray-300 rounded-xl p-3 mt-2 outline-none focus:ring-2 focus:ring-indigo-500" required>
-                        </div>
+                        </div> --}}
                         <div>
                             <label class="block text-sm font-bold text-gray-700">Hire Fare (₱)</label>
                             <input type="number" step="0.01" name="hire_fare" value="{{ old('hire_fare', $fare->hire_fare) }}"

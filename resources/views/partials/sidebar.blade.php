@@ -191,7 +191,7 @@
                         class="{{ request()->routeIs('admin.fare.index') ? 'bg-neutral-tertiary text-fg-brand' : '' }} flex items-center px-3 py-2 text-body rounded hover:bg-neutral-tertiary hover:text-fg-brand group">
                         <x-tabler-receipt-2
                             class="w-5 h-5 text-gray-500 group-hover:text-fg-brand transition duration-150 " />
-                        <span class="ml-3 font-semibold">Fare Descriptions</span>
+                        <span class="ml-3 font-semibold">Trip Fare</span>
                     </a>
                 </li>
             @endif
