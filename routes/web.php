@@ -107,7 +107,7 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
 
     // Profile
     Route::get('/driver/profile', [DriverController::class, 'viewProfile'])->name('driver.profile');
-    Route::post('/driver/profile', [DriverController::class, 'updateInformation'])->name('driver.profileUpdate');
+    Route::put('/driver/profile', [DriverController::class, 'updateInformation'])->name('driver.profileUpdate');
     Route::post('/driver/password', [DriverController::class, 'updatePassword'])->name('driver.passwordUpdate');
 
     // Trip History
@@ -136,6 +136,9 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
 // Dispatcher
 Route::middleware(['auth', 'role:dispatcher'])->group(function () {
     Route::get('/dispatcher/dashboard', [DispatchController::class, 'index'])->name('dispatcher.dashboard');
+    Route::get('/dispatcher/profile', [DispatchController::class, 'editProfile'])->name('dispatcher.profile.edit');
+    Route::put('/dispatcher/profile', [DispatchController::class, 'updateProfile'])->name('dispatcher.profile.update');
+    Route::put('/dispatcher/password', [DispatchController::class, 'updatePassword'])->name('dispatcher.password.update');
 });
 
 /*

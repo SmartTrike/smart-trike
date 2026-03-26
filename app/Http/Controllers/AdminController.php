@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DispatcherInformation;
 use App\Models\DriverInformation;
 use App\Models\DriverQueue;
+use App\Models\FareSetting;
 use App\Models\LostItem;
 use App\Models\Ride;
 use Illuminate\Http\Request;
@@ -51,6 +52,7 @@ class AdminController extends Controller
                 ->orderBy('created_at', 'asc') // Assuming the first driver is the one with the earliest created_at
                 ->first();
 
+                $fare = FareSetting::where('is_current', true)->first();
 
             $lostAndFoundCount = LostItem::where('status', 'reported')->count();
 
@@ -62,7 +64,7 @@ class AdminController extends Controller
 
 
             // Return the view with the data
-            return view('admin.dashboard', compact('activeQueueCount', 'onRideCount', 'completedCount', 'cancelledCount', 'ongoingRides', 'currentQueueDriver', 'driverDetails', 'lostAndFoundCount'));
+            return view('admin.dashboard', compact('activeQueueCount', 'onRideCount', 'completedCount', 'cancelledCount', 'ongoingRides', 'currentQueueDriver', 'driverDetails', 'lostAndFoundCount', 'fare'));
         } catch (\Exception $e) {
             // Log the error for debugging and alerting
             Log::error('Error fetching dashboard data: ' . $e->getMessage());

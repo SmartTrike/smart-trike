@@ -40,6 +40,59 @@
                 <p class="text-gray-500 text-sm mt-2">Total items reported.</p>
             </div>
         </div>
+           
+
+                    @if ($fare)
+                <div class="mb-8 bg-indigo-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div>
+                            <span
+                                class="text-indigo-200 text-xs font-bold uppercase tracking-widest text-indigo-100/60">Currently
+                                Active Rate</span>
+                            <h2 class="text-2xl font-bold mt-1 tracking-tight">{{ $fare->label }}</h2>
+                        </div>
+                        <div class="flex gap-8">
+                            <div class="text-center">
+                                <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
+                                <p class="text-xl font-bold">₱{{ number_format($fare->trip_fare, 2) }}</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-indigo-300 text-xs uppercase font-semibold">Terminal</p>
+                                <p class="text-xl font-bold">₱{{ number_format($fare->terminal_fare, 2) }}</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
+                                <p class="text-xl font-bold">₱{{ number_format($fare->hire_fare, 2) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Decorative background icon --}}
+                    <x-tabler-receipt-2 class="absolute -right-4 -bottom-4 w-32 h-auto text-white/10 rotate-12" />
+                </div>
+            @else
+                <div
+                    class="mb-8 bg-amber-50 border-2 border-dashed border-amber-200 rounded-2xl p-8 text-center relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col items-center justify-center">
+                        <div
+                            class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-4">
+                            <x-tabler-alert-triangle class="w-10 h-10" />
+                        </div>
+                        <h2 class="text-xl font-bold text-amber-900">No Active Fare Description Found</h2>
+                        <p class="text-amber-700 mt-2 max-w-md mx-auto">
+                            Please create a new fare or <strong>activate</strong> an existing one from the list below to
+                            enable.
+                        </p>
+                        <a href="{{ route('admin.fare.create') }}"
+                            class="mt-4 inline-flex items-center gap-2 bg-amber-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-amber-700 transition-all shadow-lg shadow-amber-100">
+                            <x-tabler-plus class="w-5 h-5" />
+                            Setup New Fare
+                        </a>
+                    </div>
+
+                    <x-tabler-coin-off class="absolute -right-4 -bottom-4 w-32 h-32 text-amber-200/30 -rotate-12" />
+                </div>
+            @endif
+
 
         <section class="mx-auto">
             @if($currentQueueDriver && $driverDetails)

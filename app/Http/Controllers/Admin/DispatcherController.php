@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DispatcherInformation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -161,17 +162,6 @@ class DispatcherController extends Controller
         //
     }
 
-    // public function getDispatchers(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $dispatchers = DispatcherInformation::select('id', 'first_name', 'last_name', 'contact_number', 'status');
-    //         dd($dispatchers->get()); // Debugging to check the data
+   
 
-    //         return DataTables::of($dispatchers)
-    //             ->addColumn('action', function ($dispatcher) {
-    //                 return '<a href="' .'" class="btn btn-primary btn-sm">Edit</a>';
-    //             })
-    //             ->make(true);
-    //     }
-    // }
 }

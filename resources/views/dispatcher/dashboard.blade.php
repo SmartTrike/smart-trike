@@ -34,6 +34,47 @@
             </div>
         </div>
 
+        @if($fare)
+            <div class="mb-8 bg-indigo-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                        <span class="text-indigo-200 text-xs font-bold uppercase tracking-widest">Currently Active Rate</span>
+                        <h2 class="text-2xl font-bold mt-1">{{ $fare->label }}</h2>
+                    </div>
+                    <div class="flex gap-8">
+                        <div class="text-center">
+                            <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
+                            <p class="text-xl font-bold">₱{{ number_format($fare->trip_fare, 2) }}</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-indigo-300 text-xs uppercase font-semibold">Terminal</p>
+                            <p class="text-xl font-bold">₱{{ number_format($fare->terminal_fare, 2) }}</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
+                            <p class="text-xl font-bold">₱{{ number_format($fare->hire_fare, 2) }}</p>
+                        </div>
+                    </div>
+                </div>
+                {{-- Decorative background icon --}}
+                <x-tabler-receipt-2 class="absolute -right-4 -bottom-4 w-32 h-32 text-white/10 rotate-12" />
+            </div>
+
+            @else 
+
+            <div class="mb-6 bg-gray-100 border border-gray-200 rounded-2xl p-4 flex items-center gap-4">
+            <div class="bg-gray-200 p-2 rounded-lg text-gray-500">
+                <x-tabler-pennant-off class="w-5 h-5" />
+            </div>
+            <div>
+                <p class="text-sm font-bold text-gray-700">Rates currently unavailable</p>
+                <p class="text-xs text-gray-500">Please contact the administrator to initialize fare settings.</p>
+            </div>
+        </div>
+        
+            @endif
+            
+
         <section class="mx-auto">
             @if($currentQueueDriver && $driverDetails)
             <div class="bg-white rounded-xl flex flex-col shadow-sm border border-gray-200 overflow-hidden">

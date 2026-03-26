@@ -113,6 +113,20 @@
                 {{-- Decorative background icon --}}
                 <x-tabler-receipt-2 class="absolute -right-4 -bottom-4 w-32 h-32 text-white/10 rotate-12" />
             </div>
+
+
+            @else 
+
+            <div class="mb-6 bg-gray-100 border border-gray-200 rounded-2xl p-4 flex items-center gap-4">
+            <div class="bg-gray-200 p-2 rounded-lg text-gray-500">
+                <x-tabler-pennant-off class="w-5 h-5" />
+            </div>
+            <div>
+                <p class="text-sm font-bold text-gray-700">Rates currently unavailable</p>
+                <p class="text-xs text-gray-500">Please contact the administrator to initialize fare settings.</p>
+            </div>
+        </div>
+        
             @endif
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

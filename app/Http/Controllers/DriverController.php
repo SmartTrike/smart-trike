@@ -145,12 +145,12 @@ class DriverController extends Controller
             'middle_name' => 'nullable|string|max:50',
             'last_name' => 'required|string|max:50',
             'suffix' => 'nullable|string|max:10',
-            'contact_number' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
-            'birthdate' => 'required|date|before:today',
-            'license_expiry_date' => 'required|date,'.$driverInfo->id,
-            'plate_number' => 'required|string|max:20|unique:driver_information,plate_number,'.$driverInfo->id,
-            'tricycle_body_number' => 'required|string|max:20',
+            'contact_number' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'birthdate' => 'nullable|date|before:today',
+           'license_expiry_date' => 'nullable|date|after:today',
+            'plate_number' => 'nullable|string|max:20|unique:driver_information,plate_number,'.$driverInfo->id,
+            'tricycle_body_number' => 'nullable|string|max:20',
             'model' => 'nullable|string|max:50',
         ]);
 

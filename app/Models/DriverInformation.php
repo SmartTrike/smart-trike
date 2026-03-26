@@ -20,7 +20,6 @@ class DriverInformation extends Model
         'contact_number',
         'address',
         'birthdate',
-        'license_number',
         'license_expiry_date',
         'operator_name',
         'operator_contact',

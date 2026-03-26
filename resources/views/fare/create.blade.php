@@ -4,6 +4,11 @@
 <div class="min-h-screen bg-gray-50/30 p-4 lg:p-10">
     <div class="max-w-4xl mx-auto">
         <header class="mb-8">
+                <div class="flex items-center gap-2 text-sm text-indigo-600 font-bold mb-2">
+                <a href="{{ route('admin.fare.index') }}" class="hover:underline flex items-center gap-1">
+                    <x-tabler-arrow-left class="w-4 h-4" /> Back to List
+                </a>
+            </div>
             <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Create Fare Description</h1>
             <p class="text-gray-500 mt-1">Define a new pricing structure for the transport system.</p>
         </header>

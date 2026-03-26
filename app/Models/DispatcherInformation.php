@@ -19,8 +19,6 @@ class DispatcherInformation extends Model
         'suffix',
         'contact_number',
         'address',
-        'shift',
-        'assigned_terminal',
         'date_started',
         'status',
     ];

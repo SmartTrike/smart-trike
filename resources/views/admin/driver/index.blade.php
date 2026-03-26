@@ -50,8 +50,11 @@
                             <tr>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Driver
                                     Profile</th>
-                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Email
-                                    Address</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">MTOP Number
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Plate Number
+                                </th>
+
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Date Joined
                                 </th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
@@ -63,43 +66,47 @@
                                 <tr class="hover:bg-gray-50/30 transition-colors group">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
-                                         
 
-
-                                             @if ($driver->driverInfo->profile_photo)
+                                            @if ($driver->driverInfo->profile_photo)
                                                 {{-- Fixed typo: height and added crop="thumb" for better table display --}}
-                                                <x-cloudinary::image 
-                                                    width="100" 
-                                                    height="100" 
-                                                    crop="thumb"
+                                                <x-cloudinary::image width="100" height="100" crop="thumb"
                                                     public-id="{{ $driver->driverInfo->profile_photo }}"
                                                     class="w-10 h-10 rounded-lg object-cover border border-gray-100"
-                                                    alt="Profil" >
+                                                    alt="Profil">
 
                                                 </x-cloudinary::image>
                                             @else
-                                                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                <div
+                                                    class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                     </svg>
                                                 </div>
                                             @endif
 
 
-                           
+
                                             <div>
-                                                             
+
                                                 <div class="text-sm font-bold text-gray-900">{{ $driver->username }}</div>
                                                 <div class="text-2xs text-gray-400 uppercase tracking-tighter">ID:
                                                     #{{ $driver->id }}</div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </td>
 
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-600 font-medium">{{ $driver->mtop_number ?? 'N/A' }}</div>
+                                        <div class="text-sm text-gray-600 font-medium">
+                                            {{ $driver->driverInfo->mtop_number ?? 'N/A' }}</div>
                                     </td>
 
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-600 font-medium">
+                                            {{ $driver->driverInfo->plate_number ?? 'N/A' }}</div>
+                                    </td>
 
 
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -117,12 +124,12 @@
                                             </a>
                                             <span class="text-gray-200">|</span>
                                             <!-- <form action="" method="POST" onsubmit="return confirm('Delete this driver account?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors">
-                                                Delete
-                                            </button>
-                                        </form> -->
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors">
+                                                    Delete
+                                                </button>
+                                            </form> -->
                                         </div>
                                     </td>
                                 </tr>
