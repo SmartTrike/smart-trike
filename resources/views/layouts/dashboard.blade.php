@@ -22,6 +22,7 @@
 
     <main class="flex-1 h-full sm:ml-64">
         @yield('content')
+        {{-- new --}}
 
         <div id="dispatchModal" class="fixed inset-0 z-100 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
@@ -79,6 +80,7 @@
         </div>
 
     </main>
+    
 
     @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>

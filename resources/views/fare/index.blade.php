@@ -81,11 +81,11 @@
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Description
                                     Label</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
-                                    Trip Fare</th>
+                                    Base Fare</th>
                                 {{-- <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
                                     Terminal</th> --}}
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-right">
-                                    Hire Fare</th>
+                                    Special Trip</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 text-center">
                                     Status</th>
                                 <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400">Actions</th>

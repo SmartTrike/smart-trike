@@ -74,7 +74,9 @@ class FareSettingController extends Controller
         $fare = FareSetting::findOrFail($id);
 
         return view('fare.edit', compact('fare'));
-    }
+    
+        }
+
 
     /**
      * Update the specified resource in storage.
