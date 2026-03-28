@@ -33,7 +33,7 @@
                         </div>
                         <div class="flex gap-8">
                             <div class="text-center">
-                                <p class="text-indigo-300 text-xs uppercase font-semibold">Trip Fare</p>
+                                <p class="text-indigo-300 text-xs uppercase font-semibold">Base Fare</p>
                                 <p class="text-xl font-bold">₱{{ number_format($activeFare->trip_fare, 2) }}</p>
                             </div>
                             {{-- <div class="text-center">
@@ -41,7 +41,7 @@
                                 <p class="text-xl font-bold">₱{{ number_format($activeFare->terminal_fare, 2) }}</p>
                             </div> --}}
                             <div class="text-center">
-                                <p class="text-indigo-300 text-xs uppercase font-semibold">Hire</p>
+                                <p class="text-indigo-300 text-xs uppercase font-semibold">Special Trip</p>
                                 <p class="text-xl font-bold">₱{{ number_format($activeFare->hire_fare, 2) }}</p>
                             </div>
                         </div>
